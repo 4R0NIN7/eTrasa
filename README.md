@@ -22,13 +22,13 @@
  - udostępnianie zdjęć/filmów + komentarze
 
 # Przydatne linki
-Firebase tutorial (od tego zaczne) https://www.androidhive.info/2016/06/android-getting-started-firebase-simple-login-registration-auth/
-SQLite - https://www.tutorialspoint.com/android/android_sqlite_database.htm
-BroadcastReciver (np.: udostępnianie jsonów w formie bluetooth) https://developer.android.com/guide/components/broadcasts
-Lokalizacje mam w inżynierce
-Widget (do logowania do firebase) https://developer.android.com/guide/topics/appwidgets
-ServiceLocation https://www.youtube.com/watch?v=4xcrZcnBk60
+ - Firebase tutorial  https://www.androidhive.info/2016/06/android-getting-started-firebase-simple-login-registration-auth/
+ - SQLite - https://www.tutorialspoint.com/android/android_sqlite_database.htm
+ - BroadcastReciver (np.: udostępnianie jsonów w formie bluetooth) https://developer.android.com/guide/components/broadcasts
+ - Lokalizacje mam w inżynierce
+ - Widget (do logowania do firebase) https://developer.android.com/guide/topics/appwidgets
+ - ServiceLocation https://www.youtube.com/watch?v=4xcrZcnBk60
 #Google links
-Firebase https://console.firebase.google.com/u/0/project/etrasa-40212/overview
-Google console https://console.cloud.google.com/home/dashboard?hl=pl&project=etrasa-40212
+ - Firebase https://console.firebase.google.com/u/0/project/etrasa-40212/overview
+ - Google console https://console.cloud.google.com/home/dashboard?hl=pl&project=etrasa-40212
 
