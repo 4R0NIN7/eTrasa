@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "566976537189",
+    "firebase_url": "https://etrasa-40212.firebaseio.com",
+    "project_id": "etrasa-40212",
+    "storage_bucket": "etrasa-40212.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566976537189:android:001ce76d3309f262de9c8c",
+        "android_client_info": {
+          "package_name": "com.r0nin.etrasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566976537189-01lbn3uqu0i81hc9334tftls9773huo7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH9WzeuOK3iT0pWqp3t1YW82ui7i-SAh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566976537189-01lbn3uqu0i81hc9334tftls9773huo7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
