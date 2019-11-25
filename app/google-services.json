@@ -15,13 +15,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "566976537189-6qetqu6ft74g1jlndm598uub0vb0lnip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.r0nin.etrasa",
+            "certificate_hash": "0366d755481f7af2222bcd0005879e1e94c70a03"
+          }
+        },
+        {
           "client_id": "566976537189-01lbn3uqu0i81hc9334tftls9773huo7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDH9WzeuOK3iT0pWqp3t1YW82ui7i-SAh4"
+          "current_key": "AIzaSyCX9D2fSytGPydzbvuBAOfX29dfzWUBj6o"
         }
       ],
       "services": {
