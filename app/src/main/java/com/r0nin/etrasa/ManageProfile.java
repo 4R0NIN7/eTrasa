@@ -28,7 +28,7 @@ Termin tego
  */
 
 
-public class CheckProfile extends AppCompatActivity {
+public class ManageProfile extends AppCompatActivity {
 
     protected Button buttonImage, buttonEmail, buttonPassword, buttonSave;
     protected EditText editTextName, editTextEmail, editTextPassword;
@@ -41,7 +41,7 @@ public class CheckProfile extends AppCompatActivity {
         buttonEmail = findViewById(R.id.buttonEmail);
         buttonImage = findViewById(R.id.buttonImage);
         buttonPassword = findViewById(R.id.buttonPassword);
-        buttonSave = findViewById(R.id.buttonSave);
+        buttonSave = findViewById(R.id.buttonChangeName);
         editTextName = findViewById(R.id.editTextName);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
@@ -64,9 +64,9 @@ public class CheckProfile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.email_updated), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageProfile.this, getApplicationContext().getString(R.string.email_updated), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.email_updated_failed), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageProfile.this, getApplicationContext().getString(R.string.email_updated_failed), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -78,9 +78,9 @@ public class CheckProfile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ManageProfile.this, getApplicationContext().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.password_updated_failed), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ManageProfile.this, getApplicationContext().getString(R.string.password_updated_failed), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

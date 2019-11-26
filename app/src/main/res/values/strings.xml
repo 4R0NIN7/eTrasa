@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">eTrasa</string>
     <string name="login">Login</string>
-    <string name="main">Main</string>
+    <string name="main">Main menu</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_out">Sign out</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="manage_acc">Manage profile</string>
     <string name="connect_internet">You must connect device to the Internet</string>
     <string name="change_profile">My profile</string>
     <string name="create_track">Create track</string>
@@ -19,7 +20,7 @@
     <string name="send_email_verf">Verification email sent to: </string>
     <string name="send_email_verf_failed">Failed to send verification email</string>
     <string name="hello">Welcome </string>
-    <string name="save">Save changes</string>
+    <string name="change_name">Change your name</string>
     <string name="change_your_name">Hello! Please change your name</string>
     <string name="your_name">Your display name: </string>
     <string name="change_image">Change your profile image</string>
@@ -32,4 +33,6 @@
     <string name="email_updated_failed">Failed to update email</string>
     <string name="check_data">Incorrect login or password. Try again</string>
     <string name="cannot_create_acc">User is already in database</string>
+    <string name="back">Go back</string>
+    <string name="reset_password">Reset password</string>
 </resources>
