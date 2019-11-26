@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#8ABFE3"
     android:visibility="visible"
-    tools:context=".ChangeProfile">
+    tools:context=".CheckProfile">
 
     <Button
         android:id="@+id/buttonPassword"

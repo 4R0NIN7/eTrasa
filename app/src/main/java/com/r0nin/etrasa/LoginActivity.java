@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class LoginActivity extends AppCompatActivity {
 
     protected EditText editTextPassword, editTextEmail;
-    protected Button buttonSignIn, buttonCreateAcc;
+    protected Button buttonSignIn, buttonCreateAcc, buttonForgotPassword;
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -34,10 +36,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        checkConnection();
+
         editTextEmail =  findViewById(R.id.editTextEmail);
         editTextPassword =  findViewById(R.id.editTextPassword);
         buttonSignIn =  findViewById(R.id.buttonSignIn);
         buttonCreateAcc =  findViewById(R.id.buttonCreateAcc);
+        buttonForgotPassword =  findViewById(R.id.buttonForgotPassword);
         mAuth = FirebaseAuth.getInstance();
         db  = FirebaseFirestore.getInstance();
         buttonCreateAcc.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +59,43 @@ public class LoginActivity extends AppCompatActivity {
                 signIn(editTextEmail.getText().toString(),editTextPassword.getText().toString());
             }
         });
+
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn(editTextEmail.getText().toString(),editTextPassword.getText().toString());
+            }
+        });
+
+
+
+
+
+    }
+
+
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void checkConnection(){
+        if(isOnline()){
+        }else{
+            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.connect_internet) , Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     //tworzenie nowego konta
@@ -74,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Log.e(TAG, "M_createAccount: Fail!", task.getException());
-                            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.auth_failed) , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannot_create_acc) , Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -97,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Log.e(TAG, "M_signIn: Fail!", task.getException());
-                            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.auth_failed) , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.check_data) , Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -107,6 +150,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+    
 
     private void sendEmailVerification() {
         final FirebaseUser user = mAuth.getCurrentUser();

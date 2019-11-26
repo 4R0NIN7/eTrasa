@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSignOut = findViewById(R.id.buttonSignOut);
         buttonCreateTrack = findViewById(R.id.buttonCreateTrack);
         String name = firebaseUser.getDisplayName();
-        if(!name.isEmpty()) {
+        if(!(name == null)) {
             String hello = this.getString(R.string.hello) + name + " !";
             textViewHello.setText(hello);
         }else

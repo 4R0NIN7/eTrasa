@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">eTrasa</string>
+    <string name="login">Login</string>
+    <string name="main">Main</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_out">Sign out</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="connect_internet">You must connect device to the Internet</string>
     <string name="change_profile">My profile</string>
     <string name="create_track">Create track</string>
     <string name="create_acc">Create account</string>
@@ -26,4 +30,6 @@
     <string name="password_info">Enter your new password or leave as it</string>
     <string name="email_updated">Email is updated</string>
     <string name="email_updated_failed">Failed to update email</string>
+    <string name="check_data">Incorrect login or password. Try again</string>
+    <string name="cannot_create_acc">User is already in database</string>
 </resources>

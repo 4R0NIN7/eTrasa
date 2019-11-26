@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,13 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /*
 
 Dorobić change profile żeby zmieniał obrazek -> trzeba użyć firebase storage i wykorzystać kamere (to już robiłem i było proste)
-Dorobić wykorzystanie neta i informacje o tym jak opdale sobie aplikacje uzytkownik
 Dorobić zmiane haseł
 Termin tego
 1. Dzis wiczorem
@@ -31,7 +28,7 @@ Termin tego
  */
 
 
-public class ChangeProfile extends AppCompatActivity {
+public class CheckProfile extends AppCompatActivity {
 
     protected Button buttonImage, buttonEmail, buttonPassword, buttonSave;
     protected EditText editTextName, editTextEmail, editTextPassword;
@@ -67,9 +64,9 @@ public class ChangeProfile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ChangeProfile.this, getApplicationContext().getString(R.string.email_updated), Toast.LENGTH_LONG).show();
+                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.email_updated), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(ChangeProfile.this, getApplicationContext().getString(R.string.email_updated_failed), Toast.LENGTH_LONG).show();
+                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.email_updated_failed), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -81,9 +78,9 @@ public class ChangeProfile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ChangeProfile.this, getApplicationContext().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(ChangeProfile.this, getApplicationContext().getString(R.string.password_updated_failed), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CheckProfile.this, getApplicationContext().getString(R.string.password_updated_failed), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

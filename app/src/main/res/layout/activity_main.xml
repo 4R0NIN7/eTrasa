@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:fontFamily="serif"
-        android:text="@string/app_name"
+        android:text="@string/main"
         android:textColor="#585858"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,15 +90,17 @@
         android:id="@+id/textViewHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="serif"
         android:text="@string/your_name"
+        android:textAlignment="center"
         android:textColor="#585858"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintTop_toBottomOf="@+id/appNameTextView3"
+        app:layout_constraintVertical_bias="0.026" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
