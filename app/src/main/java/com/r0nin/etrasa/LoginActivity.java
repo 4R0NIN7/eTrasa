@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     protected Button buttonSignIn, buttonCreateAcc;
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonSignIn =  findViewById(R.id.buttonSignIn);
         buttonCreateAcc =  findViewById(R.id.buttonCreateAcc);
         mAuth = FirebaseAuth.getInstance();
-
+        db  = FirebaseFirestore.getInstance();
         buttonCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,9 +68,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.e(TAG, "M_createAccount: Success!");
                             sendEmailVerification();
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            intent.putExtra("user",user);
                             startActivity(intent);
                             finish();
                         } else {
@@ -89,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e(TAG, "M_signIn: Success!");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-
                             startActivity(intent);
                             finish();
                         } else {

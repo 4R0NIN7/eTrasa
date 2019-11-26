@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">eTrasa</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="change_profile">My profile</string>
+    <string name="create_track">Create track</string>
     <string name="create_acc">Create account</string>
+    <string name="play_track">Track!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="enter_password">Enter password!</string>
@@ -10,4 +14,16 @@
     <string name="auth_failed">Authentication failed!</string>
     <string name="send_email_verf">Verification email sent to: </string>
     <string name="send_email_verf_failed">Failed to send verification email</string>
+    <string name="hello">Welcome </string>
+    <string name="save">Save changes</string>
+    <string name="change_your_name">Hello! Please change your name</string>
+    <string name="your_name">Your display name: </string>
+    <string name="change_image">Change your profile image</string>
+    <string name="change_email">Change your email address</string>
+    <string name="change_password">Change your password</string>
+    <string name="password_updated">Password is updated</string>
+    <string name="password_updated_failed">Failed to update password</string>
+    <string name="password_info">Enter your new password or leave as it</string>
+    <string name="email_updated">Email is updated</string>
+    <string name="email_updated_failed">Failed to update email</string>
 </resources>
