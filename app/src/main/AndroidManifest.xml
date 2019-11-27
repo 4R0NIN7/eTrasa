@@ -11,10 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ChangeName"></activity>
+        <activity android:name=".ChangeName"/>
         <activity android:name=".ChangeImage" />
         <activity android:name=".ChangeEmail" />
-        <activity android:name=".ResetPassword" />
         <activity android:name=".ChangePassword" />
         <activity android:name=".LoginActivity">
             <intent-filter>

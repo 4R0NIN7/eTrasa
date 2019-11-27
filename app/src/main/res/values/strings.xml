@@ -21,7 +21,7 @@
     <string name="send_email_verf_failed">Failed to send verification email</string>
     <string name="hello">Welcome </string>
     <string name="change_name">Change your name</string>
-    <string name="change_your_name">Hello! Please change your name</string>
+    <string name="change_your_name">Change your name</string>
     <string name="your_name">Your display name: </string>
     <string name="change_image">Change your profile image</string>
     <string name="change_email">Change your email address</string>
@@ -35,4 +35,21 @@
     <string name="cannot_create_acc">User is already in database</string>
     <string name="back">Go back</string>
     <string name="reset_password">Reset password</string>
+
+    <string name="old_email">Enter your old email</string>
+    <string name="new_email">Enter your new email</string>
+    <string name="new_email_success">Updated email</string>
+    <string name="new_email_failed">Failed to update new email</string>
+    <string name="old_email_mismatch">Actual email is not the same as old email!</string>
+    <string name="save">Save</string>
+
+    <string name="old_name">Enter your previous name</string>
+    <string name="new_name">Enter your new email</string>
+    <string name="new_name_success">Your name was changed</string>
+
+    <string name="old_password">Enter your previous password</string>
+    <string name="new_password">Enter your new password</string>
+
+
+
 </resources>
