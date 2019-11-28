@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8ABFE3"
+    android:background="@color/colorPrimary"
     tools:context=".LoginActivity">
 
     <Button
@@ -12,7 +12,9 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#8ABFE3"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorPrimary"
         android:text="@string/forgot_password"
         android:textAlignment="center"
         android:textColor="#585858"
@@ -22,14 +24,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.635" />
+        app:layout_constraintVertical_bias="0.64" />
 
     <Button
         android:id="@+id/buttonCreateAcc"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
-        android:background="#FFD600"
+        android:background="@color/buttonCreateAcc"
         android:text="@string/create_acc"
         android:textColor="#585858"
         android:textSize="18sp"
@@ -44,7 +47,7 @@
         android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
-        android:background="#FF6D00"
+        android:background="@color/buttonLogIn"
         android:text="@string/sign_in"
         android:textAlignment="center"
         android:textColor="#585858"
@@ -57,9 +60,11 @@
 
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="47dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="312dp"
         android:ems="10"
         android:hint="@string/password"
@@ -73,8 +78,10 @@
 
     <EditText
         android:id="@+id/textViewEmailDisplay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="380dp"
         android:ems="10"
         android:hint="@string/email"
@@ -85,12 +92,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/appNameTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/TextViewLogin"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="serif"
         android:text="@string/login"
+        android:textAlignment="center"
         android:textColor="#585858"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"

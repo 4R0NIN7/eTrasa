@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8ABFE3"
+    android:background="@color/colorPrimary"
     tools:context=".ChangeEmail">
 
     <TextView
-        android:id="@+id/appNameTextView4"
+        android:id="@+id/TextViewChangeYourEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -23,11 +23,11 @@
 
     <EditText
         android:id="@+id/editTextOldEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="99dp"
-        android:layout_marginEnd="98dp"
-        android:layout_marginBottom="468dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="424dp"
         android:ems="10"
         android:hint="@string/old_email"
         android:inputType="textEmailAddress"
@@ -38,11 +38,11 @@
 
     <EditText
         android:id="@+id/editTextNewEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="99dp"
-        android:layout_marginEnd="98dp"
-        android:layout_marginBottom="364dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="340dp"
         android:ems="10"
         android:hint="@string/new_email"
         android:inputType="textEmailAddress"
@@ -54,15 +54,16 @@
 
     <Button
         android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="235dp"
-        android:background="#FF6D00"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="100dp"
+        android:background="@color/buttonSave"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

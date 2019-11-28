@@ -43,8 +43,8 @@
     <string name="old_email_mismatch">Actual email is not the same as old email!</string>
     <string name="save">Save</string>
 
-    <string name="old_name">Enter your previous name</string>
-    <string name="new_name">Enter your new email</string>
+    <string name="old_name">Enter your new name</string>
+    <string name="new_name">Enter your new name</string>
     <string name="new_name_success">Your name was changed</string>
 
     <string name="old_password">Enter your previous password</string>

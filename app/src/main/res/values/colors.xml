@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00bcd4</color>
-    <color name="colorPrimaryDark">#0097a7</color>
-    <color name="colorAccent">#f2fe71</color>
+    <color name="colorPrimary">#8ABFE3</color>
+    <color name="colorPrimaryDark">#022C41</color>
+    <color name="colorAccent">#04E3F7</color>
 
-    <color name="bg_login">#26ae90</color>
-    <color name="bg_register">#2e3237</color>
-    <color name="bg_main">#428bca</color>
-    <color name="white">#ffffff</color>
-    <color name="input_login">#222222</color>
-    <color name="input_login_hint">#999999</color>
-    <color name="input_register">#888888</color>
-    <color name="input_register_bg">#3b4148</color>
-    <color name="input_register_hint">#5e6266</color>
-    <color name="btn_login">#26ae90</color>
-    <color name="btn_login_bg">#eceef1</color>
-    <color name="lbl_name">#333333</color>
-    <color name="btn_logut_bg">#ff6861</color>
+    <color name="buttonText">#585858</color>
+
+    <color name="buttonFirst">#00BFA5</color>
+
+    <color name="buttonSecond">#D2BFDA</color>
+
+    <color name="buttonThird">#FFD600</color>
+
+    <color name="buttonFourth">#94AC3B</color>
+
+    <color name="buttonFifth">#00B8D4</color>
+
+    <color name="buttonSave">#FF6D00</color>
+
+    <color name="buttonLogIn">#BBDDE7</color>
+
+    <color name="buttonCreateAcc">#AC9C7E</color>
 </resources>

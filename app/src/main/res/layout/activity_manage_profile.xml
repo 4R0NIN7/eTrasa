@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8ABFE3"
+    android:background="@color/colorPrimary"
     android:visibility="visible"
     tools:context=".ManageProfile">
 
     <TextView
-        android:id="@+id/appNameTextView2"
+        android:id="@+id/TextViewManageProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -23,71 +23,54 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="149dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="416dp"
-        android:text="@string/your_name"
-        android:textColor="#585858"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewEmailView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="368dp"
-        android:text="@string/email"
-        android:textColor="#585858"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/textViewNameDisplay"
         style="@android:style/Widget.Material.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="416dp"
-        android:background="#8ABFE3"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="400dp"
+        android:background="@color/bg_login"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/your_name"
+        android:textAlignment="center"
         android:textColor="#585858"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewEmailDisplay"
         style="@android:style/Widget.Material.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="368dp"
-        android:background="#8ABFE3"
+        android:layout_marginBottom="330dp"
+        android:background="@color/bg_login"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/your_name"
+        android:textAlignment="center"
         android:textColor="#585858"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.207"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <LinearLayout
@@ -104,7 +87,7 @@
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00BFA5"
+            android:background="@color/buttonFirst"
             android:text="@string/change_email"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -112,48 +95,64 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
         <Button
             android:id="@+id/buttonPassword"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF6D00"
+            android:background="@color/buttonSecond"
             android:text="@string/change_password"
             android:textAlignment="center"
             android:textColor="#585858"
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
         <Button
             android:id="@+id/buttonImage"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:background="#FFD600"
+            android:background="@color/buttonThird"
             android:text="@string/change_image"
             android:textAlignment="center"
             android:textColor="#585858"
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
         <Button
             android:id="@+id/buttonChangeName"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00B8D4"
+            android:background="@color/buttonFourth"
             android:text="@string/change_name"
             android:textAlignment="center"
             android:textColor="#585858"
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
         <Button
             android:id="@+id/buttonBack"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#94AC3B"
+            android:background="@color/buttonSave"
             android:text="@string/back"
             android:textAlignment="center"
             android:textColor="#585858"
