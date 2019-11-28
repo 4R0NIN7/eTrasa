@@ -1,1 +1,7 @@
-2. Imie zmienia ale nie odświeża, czyli trzeba dać odświeżanie imienia.
+-----------------------------------------------------------------------
+29.11
+1. Dorobienie zmiany obrazka na zrobienie sobie zdjecia i wyslanie go do storage
+2. Imie zmienia ale nie odświeża, czyli trzeba dać odświeżanie imienia i innych rzeczy tego typu
+3. SharedPreferences na autologowanie w opcjach
+-----------------------------------------------------------------------
+30. Tworzenie trackow i wyslanie ich do bazy danych
