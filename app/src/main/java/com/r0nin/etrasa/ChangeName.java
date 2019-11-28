@@ -41,6 +41,7 @@ public class ChangeName extends AppCompatActivity {
             Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_email_success), Toast.LENGTH_LONG).show();
             Intent i = new Intent(ChangeName.this,ManageProfile.class);
             startActivity(i);
+            finish();
         }
     }
 }

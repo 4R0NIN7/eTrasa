@@ -55,6 +55,7 @@ public class ManageProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ManageProfile.this,ChangeName.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

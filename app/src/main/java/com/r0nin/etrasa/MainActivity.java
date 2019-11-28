@@ -37,17 +37,12 @@ public class MainActivity extends AppCompatActivity {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        textViewHello = findViewById(R.id.textViewHello);
         buttonChangeProfile = findViewById(R.id.buttonChangeProfile);
         buttonTrack = findViewById(R.id.buttonTrack);
         buttonSignOut = findViewById(R.id.buttonSignOut);
         buttonCreateTrack = findViewById(R.id.buttonCreateTrack);
         String name = firebaseUser.getDisplayName();
-        if(!(name == null)) {
-            String hello = this.getString(R.string.hello) + name + " !";
-            textViewHello.setText(hello);
-        }else
-            textViewHello.setText(this.getString(R.string.change_your_name));
+
 
         buttonChangeProfile.setOnClickListener(new View.OnClickListener() {
             @Override

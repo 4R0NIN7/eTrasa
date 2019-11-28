@@ -29,8 +29,9 @@
     <Button
         android:id="@+id/buttonCreateAcc"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="39dp"
         android:layout_marginEnd="36dp"
         android:background="@color/buttonCreateAcc"
         android:text="@string/create_acc"
@@ -39,14 +40,16 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonSignIn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.784" />
 
     <Button
         android:id="@+id/buttonSignIn"
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
+        android:layout_marginEnd="39dp"
         android:background="@color/buttonLogIn"
         android:text="@string/sign_in"
         android:textAlignment="center"
@@ -54,6 +57,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCreateAcc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.783" />
