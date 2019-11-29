@@ -149,12 +149,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void showNotification(String title, String message) {
+    private void showNotification(String title, String message, String ChannelID, String ChannelName) {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("LOW_BATTERY_CHANNEL_ID",
-                    "LOW_BATTERY_CHANNEL_NAME",
+            NotificationChannel channel = new NotificationChannel(ChannelID,
+                    ChannelName,
                     NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DISCRIPTION");
             mNotificationManager.createNotificationChannel(channel);
@@ -174,21 +174,33 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiverLowBattery = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            showNotification(getApplicationContext().getString(R.string.notification_battery_low),getApplicationContext().getString(R.string.battery_low));
+            boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
+            if(stateShowNotifications)
+                showNotification(getApplicationContext().getString(R.string.notification_battery_low),getApplicationContext().getString(R.string.battery_low),"BatteryID", "BatteryLow");
+            else
+                Toast.makeText(context, getApplicationContext().getString(R.string.notification_battery_low), Toast.LENGTH_LONG).show();
         }
     };
 
     private BroadcastReceiver broadcastReceiverBatteryOk = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            showNotification(getApplicationContext().getString(R.string.notification_battery_ok),getApplicationContext().getString(R.string.battery_ok));
+            boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
+            if(stateShowNotifications)
+                showNotification(getApplicationContext().getString(R.string.notification_battery_ok),getApplicationContext().getString(R.string.battery_ok),"BatteryID","BatteryOk");
+            else
+                Toast.makeText(context, getApplicationContext().getString(R.string.notification_battery_ok), Toast.LENGTH_LONG).show();
         }
     };
 
     private BroadcastReceiver broadcastReceiverPowerConnected = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            showNotification(getApplicationContext().getString(R.string.notification_power_con),getApplicationContext().getString(R.string.power_con));
+            boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
+            if(stateShowNotifications)
+                showNotification(getApplicationContext().getString(R.string.notification_power_con),getApplicationContext().getString(R.string.power_con),"PowerID", "PowerConnected");
+            else
+                Toast.makeText(context, getApplicationContext().getString(R.string.notification_power_con), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -197,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
             if(stateShowNotifications)
-                showNotification(getApplicationContext().getString(R.string.notification_power_discon),getApplicationContext().getString(R.string.notification_power_discon));
+                showNotification(getApplicationContext().getString(R.string.notification_power_discon),getApplicationContext().getString(R.string.notification_power_discon),"PowerID","PowerDisconnected");
             else
                 Toast.makeText(context, getApplicationContext().getString(R.string.notification_power_discon), Toast.LENGTH_LONG).show();
 
