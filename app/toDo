@@ -13,3 +13,5 @@ http://www.android4devs.pl/2011/08/sharedpreferences-zapisywanie-danych-aplikacj
 -----------------------------------------------------------------------
 1. Moduł z apki ePrzewodnik dorobić
 2. Dodać notification
+3. BroadcastReceiver
+https://www.vogella.com/tutorials/AndroidBroadcastReceiver/article.html
