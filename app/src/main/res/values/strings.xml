@@ -9,13 +9,18 @@
     <string name="connect_internet">You must connect device to the Internet</string>
     <string name="change_profile">My profile</string>
     <string name="create_track">Create track</string>
-    <string name="create_acc">Create account</string>
+    <string name="create_acc">Register</string>
+    <string name="app_settings">App Settings</string>
+    <string name="about">About</string>
+    <string name="progress_bar">Wait for result...</string>
+    <string name="reset_password_success">We have sent you instructions to reset your password</string>
+    <string name="reset_password_failed">Failed to send reset email</string>
     <string name="play_track">Track!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="enter_password">Enter password!</string>
     <string name="enter_email">Enter email</string>
-    <string name="password_length">Password must be min. 6 characters long</string>
+    <string name="password_length">Password must be min. 8 characters long</string>
     <string name="auth_failed">Authentication failed!</string>
     <string name="send_email_verf">Verification email sent to: </string>
     <string name="send_email_verf_failed">Failed to send verification email</string>
@@ -28,6 +33,7 @@
     <string name="change_password">Change your password</string>
     <string name="password_updated">Password is updated</string>
     <string name="password_updated_failed">Failed to update password</string>
+    <string name="password_mismatch">Password is the same as previous one </string>
     <string name="password_info">Enter your new password or leave as it</string>
     <string name="email_updated">Email is updated</string>
     <string name="email_updated_failed">Failed to update email</string>
@@ -35,7 +41,7 @@
     <string name="cannot_create_acc">User is already in database</string>
     <string name="back">Go back</string>
     <string name="reset_password">Reset password</string>
-
+    <string name="or">Or</string>
     <string name="old_email">Enter your old email</string>
     <string name="new_email">Enter your new email</string>
     <string name="new_email_success">Updated email</string>
@@ -43,13 +49,12 @@
     <string name="old_email_mismatch">Actual email is not the same as old email!</string>
     <string name="save">Save</string>
 
-    <string name="old_name">Enter your new name</string>
-    <string name="new_name">Enter your new name</string>
+    <string name="new_name">Enter your display name</string>
     <string name="new_name_success">Your name was changed</string>
 
     <string name="old_password">Enter your previous password</string>
     <string name="new_password">Enter your new password</string>
-
+    <string name="about_toast">Piotr Szczepanek s20850</string>
 
 
 </resources>

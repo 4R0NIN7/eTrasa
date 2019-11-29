@@ -3,6 +3,7 @@ package com.r0nin.etrasa;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,9 +28,11 @@ public class LoginActivity extends AppCompatActivity {
 
     protected EditText editTextPassword, editTextEmail;
     protected Button buttonSignIn, buttonCreateAcc, buttonForgotPassword;
+
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonCreateAcc =  findViewById(R.id.buttonCreateAcc);
         buttonForgotPassword =  findViewById(R.id.buttonForgotPassword);
         mAuth = FirebaseAuth.getInstance();
-        db  = FirebaseFirestore.getInstance();
+
         buttonCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,12 +65,14 @@ public class LoginActivity extends AppCompatActivity {
         buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn(editTextEmail.getText().toString(),editTextPassword.getText().toString());
+                Intent intent = new Intent(getApplicationContext(),ResetPassword.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-
-
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setTitle(R.string.progress_bar);
 
 
     }
@@ -102,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!validateData(email, password)) {
             return;
         }
+        progressDialog.show();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -110,11 +117,14 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e(TAG, "M_createAccount: Success!");
                             sendEmailVerification();
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            progressDialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(),ChangeName.class);
+                            intent.putExtra("Register", true);
                             startActivity(intent);
                             finish();
                         } else {
                             Log.e(TAG, "M_createAccount: Fail!", task.getException());
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannot_create_acc) , Toast.LENGTH_SHORT).show();
 
                         }
@@ -126,12 +136,14 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(TAG, "M_signIn " + email);
         if(!validateData(email,password))
             return;
+        progressDialog.show();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.e(TAG, "M_signIn: Success!");
+                            progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
@@ -139,10 +151,12 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             Log.e(TAG, "M_signIn: Fail!", task.getException());
                             Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.check_data) , Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                             return;
                         }
 
                         if (!task.isSuccessful()) {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.auth_failed) , Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -174,12 +188,12 @@ public class LoginActivity extends AppCompatActivity {
 
     //walidacja danych
     private boolean validateData(String email, String password){
-        if(TextUtils.isEmpty(email)){
+        if(TextUtils.isEmpty(password)){
             Toast.makeText(getApplicationContext(), this.getString(R.string.enter_password), Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(email)){
             Toast.makeText(getApplicationContext(), this.getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
             return false;
         }

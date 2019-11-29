@@ -3,18 +3,23 @@ package com.r0nin.etrasa;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,9 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    protected Button buttonCreateTrack, buttonTrack, buttonChangeProfile, buttonSignOut;
-    protected TextView textViewHello;
-    private FirebaseFirestore db;
+    protected Button buttonCreateTrack, buttonTrack;
+    private ProgressDialog progressDialog;
+
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,31 +40,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        db = FirebaseFirestore.getInstance();
 
-        buttonChangeProfile = findViewById(R.id.buttonChangeProfile);
         buttonTrack = findViewById(R.id.buttonTrack);
-        buttonSignOut = findViewById(R.id.buttonSignOut);
         buttonCreateTrack = findViewById(R.id.buttonCreateTrack);
-        String name = firebaseUser.getDisplayName();
-
-
-        buttonChangeProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ManageProfile.class);
-                startActivity(intent);
-            }
-        });
 
         buttonTrack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        buttonSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -73,6 +58,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setTitle(R.string.progress_bar);
+
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.profile:
+            Intent intentProfile = new Intent(getApplicationContext(),ManageProfile.class);
+            startActivity(intentProfile);
+            return(true);
+        case R.id.settings:
+            //Intent intentSettings = new Intent(getApplicationContext(),Settings.class);
+            //startActivity(intentSettings);
+            return(true);
+        case R.id.about:
+            Toast.makeText(this, R.string.about_toast, Toast.LENGTH_LONG).show();
+            return(true);
+        case R.id.signOut:
+            progressDialog.show();
+            mAuth.signOut();
+            finish();
+            progressDialog.dismiss();
+            return(true);
+
+    }
+        return(super.onOptionsItemSelected(item));
+    }
+
 }

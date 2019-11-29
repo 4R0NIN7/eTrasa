@@ -2,6 +2,7 @@ package com.r0nin.etrasa;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,14 +17,18 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class ChangeName extends AppCompatActivity {
 
     protected EditText editTextName;
-    protected Button buttonSave;
+    protected Button buttonSave, buttonBack;
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_name);
-        buttonSave = findViewById(R.id.buttonSave);
+        buttonSave = findViewById(R.id.buttonSaveChangeName);
+        buttonBack = findViewById(R.id.buttonBackChangeName);
         editTextName = findViewById(R.id.editTextName);
+        Bundle bundle = getIntent().getExtras();
+
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,15 +36,35 @@ public class ChangeName extends AppCompatActivity {
                 save(editTextName.getText().toString());
             }
         });
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ManageProfile.class));
+                finish();
+            }
+        });
+
+        if(bundle != null){
+            buttonBack.setVisibility(View.GONE);
+        }
+        else {
+            buttonBack.setVisibility(View.VISIBLE);
+        }
+
+        progressDialog = new ProgressDialog(ChangeName.this);
+        progressDialog.setTitle(R.string.progress_bar);
     }
 
 
     private void save(String name) {
+        progressDialog.show();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
         if (firebaseUser != null) {
             firebaseUser.updateProfile(profileUpdates);
-            Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_email_success), Toast.LENGTH_LONG).show();
-            Intent i = new Intent(ChangeName.this,ManageProfile.class);
+            Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_LONG).show();
+            Intent i = new Intent(ChangeName.this,MainActivity.class);
+            progressDialog.dismiss();
             startActivity(i);
             finish();
         }

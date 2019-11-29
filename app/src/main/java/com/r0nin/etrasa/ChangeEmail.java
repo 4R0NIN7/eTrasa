@@ -3,6 +3,7 @@ package com.r0nin.etrasa;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,13 +19,16 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChangeEmail extends AppCompatActivity {
 
     protected EditText editTextOldEmail, editTextNewEmail;
-    protected Button buttonSave;
+    protected Button buttonSave, buttonBack;
     protected final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    protected final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_email);
-        buttonSave = findViewById(R.id.buttonSave);
+        buttonSave = findViewById(R.id.buttonSaveChangeEmail);
+        buttonBack = findViewById(R.id.buttonBackChangeEmail);
         editTextOldEmail = findViewById(R.id.editTextOldEmail);
         editTextNewEmail = findViewById(R.id.editTextNewEmail);
 
@@ -34,27 +38,43 @@ public class ChangeEmail extends AppCompatActivity {
                 save(editTextOldEmail.getText().toString(), editTextNewEmail.getText().toString());
             }
         });
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ManageProfile.class));
+                finish();
+            }
+        });
+
+        progressDialog = new ProgressDialog(ChangeEmail.this);
+        progressDialog.setTitle(R.string.progress_bar);
     }
 
 
     private void save(String oldEmail, String newEmail) {
         if (!oldEmail.equals(newEmail) && oldEmail.equals(user.getEmail())) {
+            progressDialog.show();
             user.updateEmail(newEmail.trim())
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_success), Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(ChangeEmail.this,ManageProfile.class);
+                                mAuth.signOut();
+                                Intent i = new Intent(ChangeEmail.this,LoginActivity.class);
+                                progressDialog.dismiss();
                                 startActivity(i);
+                                finish();
                             } else {
                                 Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_failed), Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
                             }
                         }
                     });
         }
         else{
             Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.old_email_mismatch), Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
         }
     }
 }

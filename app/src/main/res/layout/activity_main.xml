@@ -31,20 +31,6 @@
             android:layout_height="20dp" />
 
         <Button
-            android:id="@+id/buttonChangeProfile"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/buttonSecond"
-            android:text="@string/change_profile"
-            android:textColor="#585858"
-            android:textSize="18sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <Button
             android:id="@+id/buttonCreateTrack"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
@@ -52,20 +38,6 @@
             android:background="@color/buttonThird"
             android:ellipsize="none"
             android:text="@string/create_track"
-            android:textColor="#585858"
-            android:textSize="18sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <Button
-            android:id="@+id/buttonSignOut"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/buttonSave"
-            android:text="@string/sign_out"
             android:textColor="#585858"
             android:textSize="18sp" />
 

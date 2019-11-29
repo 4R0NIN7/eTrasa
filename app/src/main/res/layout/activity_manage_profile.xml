@@ -10,17 +10,18 @@
 
     <TextView
         android:id="@+id/TextViewManageProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="100dp"
         android:fontFamily="serif"
         android:text="@string/manage_acc"
+        android:textAlignment="center"
         android:textColor="#585858"
         android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewNameDisplay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewNameDisplay"
@@ -36,7 +37,8 @@
         android:hint="@string/your_name"
         android:textAlignment="center"
         android:textColor="#585858"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -55,23 +57,11 @@
         android:hint="@string/your_name"
         android:textAlignment="center"
         android:textColor="#585858"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageViewImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[0]" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,6 +71,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/buttonChangeName"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttonFourth"
+            android:text="@string/change_name"
+            android:textAlignment="center"
+            android:textColor="#585858"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
 
         <Button
             android:id="@+id/buttonEmail"
@@ -116,43 +122,11 @@
             android:layout_height="8dp" />
 
         <Button
-            android:id="@+id/buttonImage"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:background="@color/buttonThird"
-            android:text="@string/change_image"
-            android:textAlignment="center"
-            android:textColor="#585858"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
-
-        <Button
-            android:id="@+id/buttonChangeName"
+            android:id="@+id/buttonBackManageProfile"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/buttonFourth"
-            android:text="@string/change_name"
-            android:textAlignment="center"
-            android:textColor="#585858"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
-
-        <Button
-            android:id="@+id/buttonBack"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/buttonSave"
+            android:background="@color/buttonLogIn"
             android:text="@string/back"
             android:textAlignment="center"
             android:textColor="#585858"

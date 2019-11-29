@@ -24,15 +24,15 @@ public class ManageProfile extends AppCompatActivity {
         setContentView(R.layout.activity_manage_profile);
 
         buttonEmail = findViewById(R.id.buttonEmail);
-        buttonImage = findViewById(R.id.buttonImage);
         buttonPassword = findViewById(R.id.buttonPassword);
         buttonName = findViewById(R.id.buttonChangeName);
-        buttonBack = findViewById(R.id.buttonBack);
+        buttonBack = findViewById(R.id.buttonBackManageProfile);
         textViewEmailDisplay = findViewById(R.id.textViewEmailDisplay);
         textViewNameDisplay = findViewById(R.id.textViewNameDisplay);
-        imageViewImage = findViewById(R.id.imageViewImage);
+        
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         textViewNameDisplay.setText(firebaseUser.getDisplayName());
         textViewEmailDisplay.setText(firebaseUser.getEmail());
 
@@ -41,6 +41,7 @@ public class ManageProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ManageProfile.this,ChangeEmail.class);
                 startActivity(intent);
+                finish();
             }
         });
         buttonPassword.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +49,7 @@ public class ManageProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ManageProfile.this,ChangePassword.class);
                 startActivity(intent);
+                finish();
             }
         });
         buttonName.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +60,16 @@ public class ManageProfile extends AppCompatActivity {
                 finish();
             }
         });
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ManageProfile.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
 
