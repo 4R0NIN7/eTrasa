@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ResetPassword"></activity>
+        <activity android:name=".Settings"></activity>
+        <activity android:name=".ResetPassword" />
         <activity android:name=".ChangeName" />
         <activity android:name=".ChangeEmail" />
         <activity android:name=".ChangePassword" />

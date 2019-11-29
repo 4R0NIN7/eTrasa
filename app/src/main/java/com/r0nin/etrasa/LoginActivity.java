@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -30,11 +31,18 @@ public class LoginActivity extends AppCompatActivity {
 
     protected EditText editTextPassword, editTextEmail;
     protected Button buttonSignIn, buttonCreateAcc, buttonForgotPassword;
+    protected SharedPreferences sharedpreferences;
+
+
 
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
 
     private ProgressDialog progressDialog;
+
+    public static final String STORE_LOG = "STORE_LOG";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PASSWORD = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,17 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle(R.string.progress_bar);
 
+        sharedpreferences = getSharedPreferences(STORE_LOG,
+                Context.MODE_PRIVATE);
+        boolean remember = sharedpreferences.getBoolean("remember_login",false);
+        if(remember) {
+            if (sharedpreferences.contains(KEY_EMAIL)) {
+                editTextEmail.setText(sharedpreferences.getString(KEY_EMAIL, ""));
+            }
+            if (sharedpreferences.contains(KEY_PASSWORD)) {
+                editTextPassword.setText(sharedpreferences.getString(KEY_PASSWORD, ""));
+            }
+        }
 
 
     }
@@ -100,12 +119,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
 
-    //tworzenie nowego konta
     private void createAccount(String email, String password) {
         Log.e(TAG, "M_createAccount: " + email);
         if (!validateData(email, password)) {
@@ -123,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             Intent intent = new Intent(getApplicationContext(),ChangeName.class);
                             intent.putExtra("Register", true);
+                            savePref();
                             startActivity(intent);
                             finish();
                         } else {
@@ -148,6 +163,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e(TAG, "M_signIn: Success!");
                             progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            savePref();
+
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -207,6 +224,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    protected void savePref(){
+        String e = editTextEmail.getText().toString();
+        String p = editTextPassword.getText().toString();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(KEY_EMAIL, e);
+        editor.putString(KEY_PASSWORD, p);
+        editor.commit();
     }
 
 

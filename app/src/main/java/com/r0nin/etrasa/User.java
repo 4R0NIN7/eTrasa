@@ -8,10 +8,12 @@ public class User {
     public String uid;
     public String displayName;
     public String token;
+    public String email;
 
     public User(){}
 
-    public User(String uid, String displayName, String token){
+    public User(String email,String uid, String displayName, String token){
+        this.email = email;
         this.uid = uid;
         this.displayName = displayName;
         this.token = token;
