@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
-        android:text="@string/change_name"
+        android:text="@string/change_your_personal_data"
         android:textAlignment="center"
         android:textColor="#585858"
         android:textSize="36sp"

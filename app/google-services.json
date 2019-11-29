@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "566976537189-7dnfgln7c2f0ulv7beot3aql9gjdig8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.r0nin.etrasa",
+            "certificate_hash": "aa6e89cbdd3a2e822f26a2fa6fbd307466986b3a"
+          }
+        },
+        {
           "client_id": "566976537189-6qetqu6ft74g1jlndm598uub0vb0lnip.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

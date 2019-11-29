@@ -26,7 +26,7 @@
     <string name="send_email_verf_failed">Failed to send verification email</string>
     <string name="hello">Welcome </string>
     <string name="change_name">Change your name</string>
-    <string name="change_your_name">Change your name</string>
+    <string name="change_your_personal_data">Change your personal data</string>
     <string name="your_name">Your display name: </string>
     <string name="change_image">Change your profile image</string>
     <string name="change_email">Change your email address</string>
