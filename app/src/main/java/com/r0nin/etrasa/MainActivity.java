@@ -124,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.createTrack:
+            Intent intentCreateTrack = new Intent(getApplicationContext(),TrackActivity.class);
+            startActivity(intentCreateTrack);
+            return(true);
         case R.id.profile:
             Intent intentProfile = new Intent(getApplicationContext(),ManageProfile.class);
             startActivity(intentProfile);

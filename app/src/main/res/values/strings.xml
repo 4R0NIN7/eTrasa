@@ -70,7 +70,20 @@
 
     <string name="power_disccon">Power is disconnected</string>
     <string name="notification_power_discon">Power disconnected!</string>
+    <string name="title_activity_track">Map</string>
 
+    <string name="current_position">You are here</string>
+    <string name="error_current_location">Error during locate device</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="gps_enabled">Gps is enabled</string>
+    <string name="gps_disabled">Gps is disabled</string>
+    <string name="try_to_enable_gps">Enable gps for device</string>
+
+    <string name="name_of_point">Enter name of point</string>
+    <string name="radius">Enter radius of point in [m]</string>
+    <string name="description">Describe this point</string>
+    <string name="select_image">Take a picture</string>
 
 
 </resources>
