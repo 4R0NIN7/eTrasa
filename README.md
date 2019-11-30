@@ -25,7 +25,7 @@
  - Firebase tutorial  https://www.androidhive.info/2016/06/android-getting-started-firebase-simple-login-registration-auth/
  - SQLite - https://www.tutorialspoint.com/android/android_sqlite_database.htm
  - BroadcastReciver (np.: udostępnianie jsonów w formie bluetooth) https://developer.android.com/guide/components/broadcasts
- - Lokalizacje mam w inżynierce
+ - Lokalizacje (inżynierka. inne projekty)
  - Widget (do logowania do firebase) https://developer.android.com/guide/topics/appwidgets
  - ServiceLocation https://www.youtube.com/watch?v=4xcrZcnBk60
 #Google links
