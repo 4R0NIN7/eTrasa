@@ -2,16 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/buttonLogIn"
     android:orientation="vertical">
 
 
     <TextView
-    android:id="@+id/titleCreateDialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="15dp"
-    android:textStyle="bold"/>
+        android:id="@+id/titleCreateDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_create_dialog"
+        android:textAlignment="center"
+        android:textColor="@color/buttonText"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +29,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/name_of_point"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/buttonText" />
 
         <EditText
             android:id="@+id/editTextPointRadius"
@@ -33,7 +38,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/radius"
-            android:inputType="text" />
+            android:inputType="number"
+            android:textColor="@color/buttonText" />
 
         <EditText
             android:id="@+id/editTextDescription"
@@ -41,26 +47,10 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/description"
-            android:inputType="textPersonName"
-            android:lines="20" />
+            android:inputType="textPersonName|textImeMultiLine"
+            android:lines="20"
+            android:textColor="@color/buttonText" />
 
-        <Button
-            android:id="@+id/buttonSelectImageCreateWindowDialog"
-            style="@android:style/Widget.Holo.Button.Inset"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/select_image"
-            android:textColor="@color/buttonText"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/buttonSaveCreateWindowDialog"
-            style="@android:style/Widget.Holo.Button.Inset"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:textColor="@color/buttonSave"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

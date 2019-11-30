@@ -80,6 +80,7 @@
     <string name="gps_disabled">Gps is disabled</string>
     <string name="try_to_enable_gps">Enable gps for device</string>
 
+    <string name="title_create_dialog">Create point</string>
     <string name="name_of_point">Enter name of point</string>
     <string name="radius">Enter radius of point in [m]</string>
     <string name="description">Describe this point</string>

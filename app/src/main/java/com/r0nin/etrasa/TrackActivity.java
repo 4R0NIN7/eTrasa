@@ -10,10 +10,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,7 +41,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TrackActivity extends FragmentActivity implements OnMapReadyCallback, CreatePointDialog.CreatePointDialogListener {
 
     private GoogleMap mMap;
     private Circle circle;
@@ -61,6 +64,10 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
     private static final double RADIUS = 200;
 
+    private String pointName, description;
+    private int radius, numer = 0;
+
+    private LatLng latLng;
 
     private LocationManager locationManager;
     private LocationRequest locationRequest;
@@ -88,6 +95,11 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         addMarker = findViewById(R.id.addMarker);
     }
 
+    public void openDialog(){
+        CreatePointDialog createPointDialog = new CreatePointDialog();
+        createPointDialog.show(getSupportFragmentManager(), "Create Dialog");
+    }
+
 
 
     @Override
@@ -111,6 +123,23 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
+                    openDialog();
+                    if(!TextUtils.isEmpty(pointName) && !TextUtils.isEmpty(description)){
+                        numer++;
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .position(latLng)
+                                .title(pointName)
+                                .snippet("Point number: "+ numer + "\n"+" radius" + radius + "\n"+description);
+                        CircleOptions circleOptions = new CircleOptions()
+                                .center(latLng)
+                                .radius(RADIUS)
+                                .strokeColor(Color.RED)
+                                .visible(true);
+                        marker = mMap.addMarker(markerOptions);
+                        circle = mMap.addCircle(circleOptions);
+                        markers.add(marker);
+                        circles.add(circle);
+                    }
 
                 }
             });
@@ -232,9 +261,15 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         alert.show();
     }
 
-    private void addPoint(LatLng latLng){
-
+    private LatLng addPoint(LatLng latLng){
+        return latLng;
     }
 
 
+    @Override
+    public void applyData(String pointName, int radius, String description) {
+        this.pointName = pointName;
+        this.radius = radius;
+        this.description = description;
+    }
 }
