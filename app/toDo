@@ -1,5 +1,7 @@
 30.11 - 6.02
 1. Tworzenie trackow i wyslanie ich do bazy danych -> wysyłanie jsonem
+Działa ale ustawia znacznik nie taki jaki ja chce (nie ten radius)
+Trzeba refreshować mape
 https://www.simplifiedcoding.net/firebase-realtime-database-crud/
 2. Dialog i przesyłanie danych
 https://stackoverflow.com/questions/4279787/how-can-i-pass-values-between-a-dialog-and-an-activity

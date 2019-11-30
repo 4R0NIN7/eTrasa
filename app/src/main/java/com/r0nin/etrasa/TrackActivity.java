@@ -129,7 +129,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                         MarkerOptions markerOptions = new MarkerOptions()
                                 .position(latLng)
                                 .title(pointName)
-                                .snippet("Point number: "+ numer + "\n"+" radius" + radius + "\n"+description);
+                                .snippet("Point number: "+ numer + "\n"+"Radius " + radius + "\n"+"Description: +" + description);
                         CircleOptions circleOptions = new CircleOptions()
                                 .center(latLng)
                                 .radius(RADIUS)

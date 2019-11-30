@@ -82,7 +82,7 @@
 
     <string name="title_create_dialog">Create point</string>
     <string name="name_of_point">Enter name of point</string>
-    <string name="radius">Enter radius of point in [m]</string>
+    <string name="radius">Radius [m]</string>
     <string name="description">Describe this point</string>
     <string name="select_image">Take a picture</string>
 

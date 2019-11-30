@@ -21,7 +21,6 @@ public class Point {
         this.latLng = latLng;
         this.description = description;
         this.downloadUrl = downloadUrl;
-        this.imageId = imageId;
     }
 
 }
