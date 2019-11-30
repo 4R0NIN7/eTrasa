@@ -18,6 +18,8 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -41,14 +43,14 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackActivity extends FragmentActivity implements OnMapReadyCallback, CreatePointDialog.CreatePointDialogListener {
+public class TrackActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Circle circle;
     private Marker marker;
     private ArrayList<Marker> markers;
     private ArrayList<Circle> circles;
-    private Point point;
+
     private String TAG = "MapsActivity";
     private boolean permissionsGranted = false, gpsEnabled = false;
 
@@ -64,8 +66,8 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
     private static final double RADIUS = 200;
 
-    private String pointName, description;
-    private int radius, numer = 0;
+
+    private static int  numer = 0;
 
     private LatLng latLng;
 
@@ -74,7 +76,9 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    private ImageView addMarker;
+    protected Button buttonSaveTrack;
+    protected EditText editTextPointName, editTextDescription, editTextRadius;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +96,17 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         markers = new ArrayList<>();
         circles = new ArrayList<>();
-        addMarker = findViewById(R.id.addMarker);
+        buttonSaveTrack = findViewById(R.id.buttonSaveTrack);
+        buttonSaveTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TrackActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        editTextDescription = findViewById(R.id.editTextDescription);
+        editTextPointName = findViewById(R.id.editTextPointName);
+        editTextRadius = findViewById(R.id.editTextRadius);
     }
 
     public void openDialog(){
@@ -123,13 +137,16 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
-                    openDialog();
-                    if(!TextUtils.isEmpty(pointName) && !TextUtils.isEmpty(description)){
+                    if(!TextUtils.isEmpty(editTextPointName.getText().toString()) && !TextUtils.isEmpty(editTextDescription.getText().toString()) && !TextUtils.isEmpty(editTextRadius.getText().toString())){
                         numer++;
+                        int radius = Integer.parseInt(editTextRadius.getText().toString());
+                        String pointName = editTextPointName.getText().toString();
+                        String description = editTextDescription.getText().toString();
                         MarkerOptions markerOptions = new MarkerOptions()
                                 .position(latLng)
                                 .title(pointName)
-                                .snippet("Point number: "+ numer + "\n"+"Radius " + radius + "\n"+"Description: +" + description);
+                                .snippet(numer + "\n"+radius + "\n"+latLng.latitude+"\n"+latLng.longitude+"\n"+description)
+                                .visible(true);
                         CircleOptions circleOptions = new CircleOptions()
                                 .center(latLng)
                                 .radius(RADIUS)
@@ -140,11 +157,16 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                         markers.add(marker);
                         circles.add(circle);
                     }
+                    else{
+                        Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.set_data_for_point), Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             });
         }
     }
+
+
 
     private void initializeMap() {
         Log.d(TAG,"initializeMap: initialize map");
@@ -259,17 +281,5 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 });
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
-    }
-
-    private LatLng addPoint(LatLng latLng){
-        return latLng;
-    }
-
-
-    @Override
-    public void applyData(String pointName, int radius, String description) {
-        this.pointName = pointName;
-        this.radius = radius;
-        this.description = description;
     }
 }

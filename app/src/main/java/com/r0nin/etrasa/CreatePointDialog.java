@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
@@ -36,8 +38,8 @@ public class CreatePointDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String pointName = editTextPointName.getText().toString();
                         int radius = Integer.parseInt(editTextPointRadius.getText().toString());
-                        String description = editTextDescription.getText().toString();
-                        createPointDialogListener.applyData(pointName,radius,description);
+
+                        createPointDialogListener.applyData(pointName,radius);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -48,7 +50,7 @@ public class CreatePointDialog extends AppCompatDialogFragment {
                 });
         editTextPointName = view.findViewById(R.id.editTextPointName);
         editTextPointRadius = view.findViewById(R.id.editTextPointRadius);
-        editTextDescription = view.findViewById(R.id.editTextDescription);
+
         return builder.create();
     }
 
@@ -65,7 +67,7 @@ public class CreatePointDialog extends AppCompatDialogFragment {
 
 
     public interface CreatePointDialogListener{
-        void applyData(String pointName, int radius, String description);
+        void applyData(String pointName, int radius);
     }
 
 }

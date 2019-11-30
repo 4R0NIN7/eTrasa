@@ -41,16 +41,6 @@
             android:inputType="number"
             android:textColor="@color/buttonText" />
 
-        <EditText
-            android:id="@+id/editTextDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/description"
-            android:inputType="textPersonName|textImeMultiLine"
-            android:lines="20"
-            android:textColor="@color/buttonText" />
-
     </LinearLayout>
 
 </LinearLayout>
