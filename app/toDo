@@ -1,7 +1,7 @@
 30.11 - 6.02
 1. Tworzenie trackow i wyslanie ich do bazy danych -> wysyłanie jsonem
-Działa ale ustawia znacznik nie taki jaki ja chce (nie ten radius)
-Trzeba refreshować mape
+Nie działa dodawanie elementów do mapy bo     java.lang.NullPointerException: Attempt to invoke virtual method 'android.text.Editable android.widget.EditText.getText()' on a null object reference
+Możliwe że jakiś śmieszny błąd jest w stylu złej referencji czy coś
 https://www.simplifiedcoding.net/firebase-realtime-database-crud/
 2. Dialog i przesyłanie danych
 https://stackoverflow.com/questions/4279787/how-can-i-pass-values-between-a-dialog-and-an-activity
