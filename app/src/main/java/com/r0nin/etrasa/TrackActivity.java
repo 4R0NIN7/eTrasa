@@ -17,12 +17,17 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -38,12 +43,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TrackActivity extends FragmentActivity implements OnMapReadyCallback, CreatePointDialog.CreatePointDialogListener {
 
     private GoogleMap mMap;
     private Circle circle;
@@ -64,7 +79,8 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private static final int SMALLEST_DISPLACEMENT = 100; //for every x meters the locationCallback will go
     private static final float DEFAULT_ZOOM = 15; //Default zoom for camera
 
-    private static final double RADIUS = 200;
+    private static double RADIUS = 20;
+    private static String POINT_NAME = "";
 
 
     private static int  numer = 0;
@@ -75,16 +91,15 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private LocationRequest locationRequest;
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    protected ImageView settingsDataTrack;
 
-    protected Button buttonSaveTrack;
-    protected EditText editTextPointName, editTextDescription, editTextRadius;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         enableRuntimePermission();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -94,32 +109,61 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         }else{
             showGPSDisabledAlertToUser();
         }
-        markers = new ArrayList<>();
-        circles = new ArrayList<>();
-        buttonSaveTrack = findViewById(R.id.buttonSaveTrack);
-        buttonSaveTrack.setOnClickListener(new View.OnClickListener() {
+        settingsDataTrack = findViewById(R.id.settingsDataTrack);
+        settingsDataTrack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TrackActivity.this,MainActivity.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                openDialog();
             }
         });
-        editTextDescription = findViewById(R.id.editTextDescription);
-        editTextPointName = findViewById(R.id.editTextPointName);
-        editTextRadius = findViewById(R.id.editTextRadius);
+        markers = new ArrayList<>();
+        circles = new ArrayList<>();
+
     }
 
     public void openDialog(){
         CreatePointDialog createPointDialog = new CreatePointDialog();
         createPointDialog.show(getSupportFragmentManager(), "Create Dialog");
     }
+    /*
+    private void autocompleteFind(String query){
+        RectangularBounds bounds = RectangularBounds.newInstance(
+                new LatLng(-33.880490, 151.184363),
+                new LatLng(-33.858754, 151.229596));
 
+        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+                .setLocationBias(bounds)
+                .setCountry("au")
+                .setTypeFilter(TypeFilter.ADDRESS)
+                .setSessionToken(token)
+                .setQuery(query)
+                .build();
+        placesClient.findAutocompletePredictions(request).addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
+            @Override
+            public void onSuccess(FindAutocompletePredictionsResponse response) {
+                for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
+                    Log.i(TAG, prediction.getPlaceId());
+                    Log.i(TAG, prediction.getPrimaryText(null).toString());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                if (exception instanceof ApiException) {
+                    ApiException apiException = (ApiException) exception;
+                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                }
+            }
+        });
+
+    }
+    */
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if(permissionsGranted) {
+        if (permissionsGranted) {
             getDeviceLocation();
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -137,33 +181,32 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
-                    if(!TextUtils.isEmpty(editTextPointName.getText().toString()) && !TextUtils.isEmpty(editTextDescription.getText().toString()) && !TextUtils.isEmpty(editTextRadius.getText().toString())){
-                        numer++;
-                        int radius = Integer.parseInt(editTextRadius.getText().toString());
-                        String pointName = editTextPointName.getText().toString();
-                        String description = editTextDescription.getText().toString();
-                        MarkerOptions markerOptions = new MarkerOptions()
-                                .position(latLng)
-                                .title(pointName)
-                                .snippet(numer + "\n"+radius + "\n"+latLng.latitude+"\n"+latLng.longitude+"\n"+description)
-                                .visible(true);
-                        CircleOptions circleOptions = new CircleOptions()
-                                .center(latLng)
-                                .radius(RADIUS)
-                                .strokeColor(Color.RED)
-                                .visible(true);
-                        marker = mMap.addMarker(markerOptions);
-                        circle = mMap.addCircle(circleOptions);
-                        markers.add(marker);
-                        circles.add(circle);
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.set_data_for_point), Toast.LENGTH_SHORT).show();
-                    }
-
+                    if(RADIUS != 0 && !TextUtils.isEmpty(POINT_NAME))
+                        setMarkerWithCircle(latLng);
+                    else
+                        Toast.makeText(TrackActivity.this, TrackActivity.this.getText(R.string.set_data_for_point), Toast.LENGTH_LONG).show();
                 }
             });
         }
+
+
+    }
+
+    private void setMarkerWithCircle(LatLng latLng){
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(POINT_NAME)
+                .snippet(numer + "\n"+RADIUS + "\n"+latLng.latitude+"\n"+latLng.longitude+"\n")
+                .visible(true);
+        CircleOptions circleOptions = new CircleOptions()
+                .center(latLng)
+                .radius(RADIUS)
+                .strokeColor(Color.RED)
+                .visible(true);
+        marker = mMap.addMarker(markerOptions);
+        circle = mMap.addCircle(circleOptions);
+        markers.add(marker);
+        circles.add(circle);
     }
 
 
@@ -171,7 +214,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private void initializeMap() {
         Log.d(TAG,"initializeMap: initialize map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapTrack);
         mapFragment.getMapAsync(TrackActivity.this);
     }
 
@@ -281,5 +324,11 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 });
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+    @Override
+    public void applyData(String pointName, int radius) {
+        POINT_NAME = pointName;
+        RADIUS = (double) radius;
     }
 }

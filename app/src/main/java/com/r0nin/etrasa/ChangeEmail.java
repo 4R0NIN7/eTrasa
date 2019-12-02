@@ -15,12 +15,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ChangeEmail extends AppCompatActivity {
 
     protected EditText editTextOldEmail, editTextNewEmail;
     protected Button buttonSave, buttonBack;
     protected final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     protected final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private ProgressDialog progressDialog;
     @Override
@@ -51,7 +54,7 @@ public class ChangeEmail extends AppCompatActivity {
     }
 
 
-    private void save(String oldEmail, String newEmail) {
+    private void save(String oldEmail, final String newEmail) {
         if (!oldEmail.equals(newEmail) && oldEmail.equals(user.getEmail())) {
             progressDialog.show();
             user.updateEmail(newEmail.trim())
@@ -62,6 +65,7 @@ public class ChangeEmail extends AppCompatActivity {
                                 Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_success), Toast.LENGTH_LONG).show();
                                 mAuth.signOut();
                                 Intent i = new Intent(ChangeEmail.this,LoginActivity.class);
+                                database.child("users").child(user.getUid()).child("email").setValue(newEmail);
                                 progressDialog.dismiss();
                                 startActivity(i);
                                 finish();

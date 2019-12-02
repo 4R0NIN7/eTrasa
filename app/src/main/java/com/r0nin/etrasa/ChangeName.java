@@ -13,12 +13,16 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ChangeName extends AppCompatActivity {
 
     protected EditText editTextName;
     protected Button buttonSave, buttonBack;
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    protected final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +66,10 @@ public class ChangeName extends AppCompatActivity {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
         if (firebaseUser != null) {
             firebaseUser.updateProfile(profileUpdates);
-            Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_LONG).show();
-            Intent i = new Intent(ChangeName.this,MainActivity.class);
+            database.child("users").child(firebaseUser.getUid()).child("displayName").setValue(name);
+            Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
+            Intent i = new Intent(ChangeName.this,LoginActivity.class);
             progressDialog.dismiss();
             startActivity(i);
             finish();

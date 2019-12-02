@@ -98,12 +98,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Token "+token);
                     }
                 });
-        database.addValueEventListener(new ValueEventListener() {
+        database.child("users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-                Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
+                User value = dataSnapshot.getValue(User.class);
+                Log.i(TAG, "Value is: " + value);
+                Toast.makeText(getApplicationContext(), "Hello + " + value.displayName, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -160,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
             NotificationChannel channel = new NotificationChannel(ChannelID,
                     ChannelName,
                     NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DISCRIPTION");
+            channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DESCRIPTION");
             mNotificationManager.createNotificationChannel(channel);
         }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "LOW_BATTERY_CHANNEL_ID")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), ChannelID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
             if(stateShowNotifications)
-                showNotification(getApplicationContext().getString(R.string.notification_battery_low),getApplicationContext().getString(R.string.battery_low),"BatteryID", "BatteryLow");
+                showNotification(getApplicationContext().getString(R.string.notification_battery_low),getApplicationContext().getString(R.string.battery_low),"BatteryID", "BatteryName");
             else
                 Toast.makeText(context, getApplicationContext().getString(R.string.notification_battery_low), Toast.LENGTH_LONG).show();
         }
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
             if(stateShowNotifications)
-                showNotification(getApplicationContext().getString(R.string.notification_battery_ok),getApplicationContext().getString(R.string.battery_ok),"BatteryID","BatteryOk");
+                showNotification(getApplicationContext().getString(R.string.notification_battery_ok),getApplicationContext().getString(R.string.battery_ok),"BatteryID","BatteryName");
             else
                 Toast.makeText(context, getApplicationContext().getString(R.string.notification_battery_ok), Toast.LENGTH_LONG).show();
         }
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
             if(stateShowNotifications)
-                showNotification(getApplicationContext().getString(R.string.notification_power_con),getApplicationContext().getString(R.string.power_con),"PowerID", "PowerConnected");
+                showNotification(getApplicationContext().getString(R.string.notification_power_con),getApplicationContext().getString(R.string.power_con),"PowerID", "PowerName");
             else
                 Toast.makeText(context, getApplicationContext().getString(R.string.notification_power_con), Toast.LENGTH_LONG).show();
         }
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             boolean stateShowNotifications = sharedpreferences.getBoolean("state_show_notifications",false);
             if(stateShowNotifications)
-                showNotification(getApplicationContext().getString(R.string.notification_power_discon),getApplicationContext().getString(R.string.notification_power_discon),"PowerID","PowerDisconnected");
+                showNotification(getApplicationContext().getString(R.string.notification_power_discon),getApplicationContext().getString(R.string.notification_power_discon),"PowerID","PowerName");
             else
                 Toast.makeText(context, getApplicationContext().getString(R.string.notification_power_discon), Toast.LENGTH_LONG).show();
 
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiverBatteryOk, filterBatteryStatusOk);
         registerReceiver(broadcastReceiverPowerConnected, filterPowerConnected);
         registerReceiver(broadcastReceiverPowerDisonnected, filterPowerDisconnected);
+        Log.i(TAG,"onResumeNotifications");
 
     }
 
@@ -237,7 +238,9 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(broadcastReceiverBatteryOk);
         unregisterReceiver(broadcastReceiverPowerConnected);
         unregisterReceiver(broadcastReceiverPowerDisonnected);
+        Log.i(TAG,"onPauseNotifications");
         super.onPause();
+
     }
 
 }
