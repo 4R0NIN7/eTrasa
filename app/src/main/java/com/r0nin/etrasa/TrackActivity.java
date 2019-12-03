@@ -46,15 +46,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,8 +57,8 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private Circle circle;
     private Marker marker;
-    private ArrayList<Marker> markers;
-    private ArrayList<Circle> circles;
+
+
 
     private String TAG = "MapsActivity";
     private boolean permissionsGranted = false, gpsEnabled = false;
@@ -79,19 +73,24 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private static final int SMALLEST_DISPLACEMENT = 100; //for every x meters the locationCallback will go
     private static final float DEFAULT_ZOOM = 15; //Default zoom for camera
 
-    private static double RADIUS = 20;
+    private static double RADIUS = 0;
     private static String POINT_NAME = "";
 
 
     private static int  numer = 0;
 
-    private LatLng latLng;
+    private ArrayList<Integer> numerAL = new ArrayList<>();
+    private ArrayList<String> titlesAL = new ArrayList<String>();
+    private ArrayList<String> radiusAL = new ArrayList<String>();
+    private ArrayList<String> latAL = new ArrayList<>();
+    private ArrayList<String> lngAL = new ArrayList<>();
+
 
     private LocationManager locationManager;
     private LocationRequest locationRequest;
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    protected ImageView settingsDataTrack;
+    protected ImageView settingsDataTrack, endSettingTrack;
 
 
 
@@ -116,8 +115,26 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 openDialog();
             }
         });
-        markers = new ArrayList<>();
-        circles = new ArrayList<>();
+        endSettingTrack = findViewById(R.id.endSettingTrack);
+        endSettingTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),CreateTrack.class);
+
+                if(!titlesAL.isEmpty()) {
+                    intent.putStringArrayListExtra("titles", titlesAL);
+                    intent.putStringArrayListExtra("radius", radiusAL);
+                    intent.putStringArrayListExtra("latAL", latAL);
+                    intent.putStringArrayListExtra("lngAL", lngAL);
+                    intent.putIntegerArrayListExtra("numerAL", numerAL);
+                    startActivity(intent);
+                    finish();
+                }else
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getText(R.string.markers_empty), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
     }
 
@@ -125,40 +142,6 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         CreatePointDialog createPointDialog = new CreatePointDialog();
         createPointDialog.show(getSupportFragmentManager(), "Create Dialog");
     }
-    /*
-    private void autocompleteFind(String query){
-        RectangularBounds bounds = RectangularBounds.newInstance(
-                new LatLng(-33.880490, 151.184363),
-                new LatLng(-33.858754, 151.229596));
-
-        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                .setLocationBias(bounds)
-                .setCountry("au")
-                .setTypeFilter(TypeFilter.ADDRESS)
-                .setSessionToken(token)
-                .setQuery(query)
-                .build();
-        placesClient.findAutocompletePredictions(request).addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
-            @Override
-            public void onSuccess(FindAutocompletePredictionsResponse response) {
-                for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-                    Log.i(TAG, prediction.getPlaceId());
-                    Log.i(TAG, prediction.getPrimaryText(null).toString());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                if (exception instanceof ApiException) {
-                    ApiException apiException = (ApiException) exception;
-                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-                }
-            }
-        });
-
-    }
-    */
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -181,9 +164,11 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
-                    if(RADIUS != 0 && !TextUtils.isEmpty(POINT_NAME))
+                    if(RADIUS > 0  && RADIUS != 0 && !TextUtils.isEmpty(POINT_NAME)) {
                         setMarkerWithCircle(latLng);
-                    else
+                        RADIUS = 0;
+                        POINT_NAME = "";
+                    }else
                         Toast.makeText(TrackActivity.this, TrackActivity.this.getText(R.string.set_data_for_point), Toast.LENGTH_LONG).show();
                 }
             });
@@ -195,7 +180,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private void setMarkerWithCircle(LatLng latLng){
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(latLng)
-                .title(POINT_NAME)
+                .title(numer+" . "+POINT_NAME)
                 .snippet(numer + "\n"+RADIUS + "\n"+latLng.latitude+"\n"+latLng.longitude+"\n")
                 .visible(true);
         CircleOptions circleOptions = new CircleOptions()
@@ -205,8 +190,14 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 .visible(true);
         marker = mMap.addMarker(markerOptions);
         circle = mMap.addCircle(circleOptions);
-        markers.add(marker);
-        circles.add(circle);
+        titlesAL.add(POINT_NAME);
+        radiusAL.add(String.valueOf(RADIUS));
+        latAL.add(String.valueOf(latLng.latitude));
+        lngAL.add(String.valueOf(latLng.longitude));
+        //Toast.makeText(this, String.valueOf(latLng.latitude), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "AL: " + Double.parseDouble(latAL.get(numer)), Toast.LENGTH_SHORT).show();
+        numerAL.add(numer);
+        numer++;
     }
 
 

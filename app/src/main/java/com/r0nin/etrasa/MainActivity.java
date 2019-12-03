@@ -1,8 +1,12 @@
 package com.r0nin.etrasa;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -27,10 +31,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,43 +46,82 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     protected SharedPreferences sharedpreferences;
     private FirebaseAuth mAuth;
     protected Button buttonCreateTrack, buttonTrack;
     private ProgressDialog progressDialog;
     protected DatabaseReference database;
+    protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private static final String TAG = "MainActivity";
     private IntentFilter filterLowBattery = new IntentFilter(Intent.ACTION_BATTERY_LOW);
     private IntentFilter filterBatteryStatusOk = new IntentFilter(Intent.ACTION_BATTERY_OKAY);
     private IntentFilter filterPowerConnected = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
     private IntentFilter filterPowerDisconnected = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+    private RecyclerView recyclerView;
+    private TrackAdapter mAdapter;
+    private ArrayList<Track> tracks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        tracks = new ArrayList<>();
+        mAdapter = new TrackAdapter(tracks, this);
+        recyclerView.setAdapter(mAdapter);
+        /*
+        Query tracksQuerry = database.child("tracks").orderByKey().limitToFirst(100);
+        tracksQuerry.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                final Track track = dataSnapshot.getValue(Track.class);
+                database.child("users/"+track.userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        track.user = user;
+                        mAdapter.notifyDataSetChanged();
+                    }
 
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                mAdapter.addTrack(track);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        */
 
         sharedpreferences = getSharedPreferences(LoginActivity.STORE_LOG,
                 Context.MODE_PRIVATE);
-        buttonTrack = findViewById(R.id.buttonTrack);
-        buttonCreateTrack = findViewById(R.id.buttonCreateTrack);
 
-        buttonTrack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        buttonCreateTrack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setTitle(R.string.progress_bar);
@@ -103,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User value = dataSnapshot.getValue(User.class);
                 Log.i(TAG, "Value is: " + value);
-                Toast.makeText(getApplicationContext(), "Hello + " + value.displayName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Welcome " + value.displayName + "!", Toast.LENGTH_SHORT).show();
             }
 
             @Override

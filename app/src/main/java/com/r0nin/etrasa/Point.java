@@ -1,15 +1,16 @@
 package com.r0nin.etrasa;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
-import com.google.type.LatLng;
 
 public class Point {
-
-    public LatLng latLng;
+    public double lat, lng;
+    public String title;
     public String description;
     public String userId;
-    public String downloadUrl;
-    public String imageId;
+    public String keyTrack;
+    public int numer;
+    public double radius;
     @Exclude
     public User user;
 
@@ -17,10 +18,14 @@ public class Point {
 
     }
 
-    public Point(LatLng latLng, String description, String downloadUrl, String imageId){
-        this.latLng = latLng;
+    public Point(String title, double lat, double lng, String description, String userId, int numer,double radius){
+        this.title = title;
+        this.lat = lat;
+        this.lng = lng;
         this.description = description;
-        this.downloadUrl = downloadUrl;
+        this.userId = userId;
+        this.numer = numer;
+        this.radius = radius;
     }
 
 }

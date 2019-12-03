@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     //logowanie użytkownika
     private void signIn(String email, String password){
-        Log.e(TAG, "M_signIn " + email);
+        Log.i(TAG, "M_signIn " + email);
         if(!validateData(email,password))
             return;
         progressDialog.show();
