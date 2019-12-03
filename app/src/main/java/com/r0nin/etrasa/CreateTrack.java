@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class CreateTrack extends AppCompatActivity {
     protected Button next, prev,saveDesc, createTrack;
-    protected EditText editTextDescriptionCreateTrack;
+    protected EditText editTextDescriptionPoint, editTextDescriptionTrack, editTextTitleForTrack;
     protected String TAG = "CreateTrackActivity";
 
     protected ArrayList<String> titlesAL;
@@ -58,7 +58,9 @@ public class CreateTrack extends AppCompatActivity {
         next = findViewById(R.id.buttonNextCreateTrack);
         prev = findViewById(R.id.buttonPrevCreateTrack);
         textViewPointName = findViewById(R.id.textViewPointName);
-        editTextDescriptionCreateTrack = findViewById(R.id.editTextDescriptionCreateTrack);
+        editTextDescriptionPoint = findViewById(R.id.editTextDescriptionPoint);
+        editTextDescriptionTrack = findViewById(R.id.editTextDescriptionTrack);
+        editTextTitleForTrack = findViewById(R.id.editTextTitleForTrack);
         saveDesc = findViewById(R.id.buttonSaveDescriptionCreateTrack);
         createTrack = findViewById(R.id.buttonSaveCreateTrack);
         Intent i = getIntent();
@@ -77,12 +79,10 @@ public class CreateTrack extends AppCompatActivity {
                 Log.i(TAG, "Actual " + actual);
                 if(actual < titlesAL.size()) {
                     textViewPointName.setText(titlesAL.get(actual));
-                    editTextDescriptionCreateTrack.setText(descriptionAL.get(actual));
                     Log.i(TAG, "actual < titlesAL.size() " + actual);
                 }else{
                     actual = 0;
                     textViewPointName.setText(titlesAL.get(actual));
-                    editTextDescriptionCreateTrack.setText(descriptionAL.get(actual));
                     Log.i(TAG, "actual = 0; " + actual);
                 }
 
@@ -95,12 +95,10 @@ public class CreateTrack extends AppCompatActivity {
                 Log.i(TAG, "Actual " + actual);
                 if(actual > 0) {
                     textViewPointName.setText(titlesAL.get(actual));
-                    editTextDescriptionCreateTrack.setText(descriptionAL.get(actual));
                     Log.i(TAG, "actual > 0 " + actual);
                 }else {
                     actual = titlesAL.size() - 1;
                     textViewPointName.setText(titlesAL.get(actual));
-                    editTextDescriptionCreateTrack.setText(descriptionAL.get(actual));
                     Log.i(TAG, "actual = titlesAL.size() - 1; " + actual);
                 }
             }
@@ -108,10 +106,10 @@ public class CreateTrack extends AppCompatActivity {
         saveDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(editTextDescriptionCreateTrack.getText().toString())) {
-                    descriptionAL.add(actual, editTextDescriptionCreateTrack.getText().toString());
+                if(!TextUtils.isEmpty(editTextDescriptionPoint.getText().toString())) {
+                    descriptionAL.add(actual, editTextDescriptionPoint.getText().toString());
                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.save_description), Toast.LENGTH_SHORT).show();
-                    editTextDescriptionCreateTrack.setText("");
+                    editTextDescriptionPoint.setText("");
                 }
                 else
                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.description), Toast.LENGTH_SHORT).show();
@@ -128,7 +126,7 @@ public class CreateTrack extends AppCompatActivity {
                     int numer = numerAL.get(i);
                     Point p = new Point(title,lat,lng,description,firebaseUser.getUid(),numer,radius);
                     Log.i(TAG,p.title);
-                    points.put(String.valueOf(numer),p);
+                    points.put(numer+"_key",p);
                 }
                 saveToDB();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -142,13 +140,28 @@ public class CreateTrack extends AppCompatActivity {
     }
 
     private void saveToDB(){
-        progressDialog.show();
-        String KEY = database.child("tracks").push().getKey();
-        Track track = new Track(KEY,firebaseUser.getUid(),"Created by " + firebaseUser.getDisplayName() + " has " + points.size() + " points.", points);
-        database.child("tracks").child(KEY).setValue(track);
-        progressDialog.dismiss();
-        Toast.makeText(getApplicationContext(), "Added to DB", Toast.LENGTH_SHORT).show();
-        Log.i(TAG, "Added to DB " + track.keyTrack + " title " + track.title);
+        if(validateEtTracks()) {
+            progressDialog.show();
+            String KEY = database.child("tracks").push().getKey();
+            String title = editTextTitleForTrack.getText().toString();
+            String description = editTextDescriptionTrack.getText().toString();
+            Track track = new Track(KEY, firebaseUser.getUid(), title, points,description);
+            database.child("tracks").child(KEY).setValue(track);
+            progressDialog.dismiss();
+            //Toast.makeText(getApplicationContext(), "Added to DB", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "Added to DB " + track.keyTrack + " title " + track.title);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.track_is_empty), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private boolean validateEtTracks(){
+        if(TextUtils.isEmpty(editTextTitleForTrack.getText().toString()))
+            return false;
+        if(TextUtils.isEmpty(editTextDescriptionTrack.getText().toString()))
+            return false;
+        return true;
     }
 
 

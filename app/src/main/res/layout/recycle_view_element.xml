@@ -1,58 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@color/buttonFirst"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textViewTrackTitle"
-        android:layout_width="0dp"
+        android:id="@+id/trackTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@color/buttonText"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/buttonSave"
+        android:text="Title"
+        android:textColor="#333"
+        android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textViewTrackDescription"
-        android:layout_width="0dp"
+        android:id="@+id/trackDescription"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textAlignment="gravity"
+        android:layout_marginTop="13dp"
+        android:background="@color/buttonFifth"
+        android:text="Description"
         android:textColor="@color/buttonText"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTrackTitle" />
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/trackCreatedBy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:background="@color/buttonSecond"
+        android:text="CreatedBy"
+        android:textColor="@color/buttonText"
+        android:textSize="14sp" />
 
     <Button
-        android:id="@+id/buttonPlayTrack"
-        android:layout_width="0dp"
+        android:id="@+id/buttonPlay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="456dp"
         android:background="@color/buttonLogIn"
         android:text="@string/play_track"
         android:textColor="@color/buttonText"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTrackDescription"
-        app:layout_constraintVertical_bias="0.0" />
+        android:textSize="14sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

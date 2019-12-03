@@ -89,11 +89,13 @@
     <string name="select_image">Take a picture</string>
     <string name="set_data_for_point">You need to set data for point to put it on the map</string>
     <string name="now_click_on_map">Now click on map to add point</string>
-    <string name="summarize_create_track">Add description to track</string>
-    <string name="prev">Previous</string>
-    <string name="next">Next</string>
+    <string name="summarize_create_track">Add description to points and to track</string>
+    <string name="prev">Previous point</string>
+    <string name="next">Next point</string>
     <string name="markers_empty">There are no markers on map</string>
-    <string name="save_description">Saved description</string>
-    <string name="add_track_to_database">Create track</string>
+    <string name="save_description">Save description for point</string>
+    <string name="add_track_to_database">End and create track</string>
+    <string name="give_title_for_track">Give title for track</string>
+    <string name="track_is_empty">Title for track or description is empty</string>
 
 </resources>

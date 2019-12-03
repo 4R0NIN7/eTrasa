@@ -51,9 +51,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     protected SharedPreferences sharedpreferences;
     private FirebaseAuth mAuth;
-    protected Button buttonCreateTrack, buttonTrack;
     private ProgressDialog progressDialog;
-    protected DatabaseReference database;
+    protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    protected DatabaseReference dbTracks = FirebaseDatabase.getInstance().getReference("/tracks");
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private static final String TAG = "MainActivity";
     private IntentFilter filterLowBattery = new IntentFilter(Intent.ACTION_BATTERY_LOW);
@@ -62,62 +62,46 @@ public class MainActivity extends AppCompatActivity {
     private IntentFilter filterPowerDisconnected = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
     private RecyclerView recyclerView;
     private TrackAdapter mAdapter;
-    private ArrayList<Track> tracks;
+    protected ArrayList<Track> tracks = new ArrayList<>();
+    protected RecyclerView.LayoutManager mLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        tracks = new ArrayList<>();
-        mAdapter = new TrackAdapter(tracks, this);
+
+        recyclerView = findViewById(R.id.recycleView);
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new TrackAdapter(tracks, MainActivity.this);
         recyclerView.setAdapter(mAdapter);
-        /*
-        Query tracksQuerry = database.child("tracks").orderByKey().limitToFirst(100);
-        tracksQuerry.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                final Track track = dataSnapshot.getValue(Track.class);
-                database.child("users/"+track.userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        track.user = user;
-                        mAdapter.notifyDataSetChanged();
+
+        try {
+            dbTracks.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                        Track track = dataSnapshot1.getValue(Track.class);
+                        tracks.add(track);
+                        //Toast.makeText(getApplicationContext(), "onDataChange", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onDataChange");
                     }
+                    mAdapter.notifyDataSetChanged();
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-                mAdapter.addTrack(track);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        */
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    //Toast.makeText(getApplicationContext(), "onCancelled", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onCancelled");
+                }
+            });
+        }catch(NullPointerException nullEx){
+            Toast.makeText(this, "Null pointer", Toast.LENGTH_SHORT).show();
+            nullEx.printStackTrace();
+        }catch (Exception ex){
+            Toast.makeText(this, "Exception", Toast.LENGTH_SHORT).show();
+            ex.printStackTrace();
+        }
 
         sharedpreferences = getSharedPreferences(LoginActivity.STORE_LOG,
                 Context.MODE_PRIVATE);
