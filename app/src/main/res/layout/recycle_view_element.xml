@@ -44,4 +44,14 @@
         android:textColor="@color/buttonText"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/buttonChangeTrack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/buttonLogIn"
+        android:textColor="@color/buttonText"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:text="@string/change_track" />
+
 </LinearLayout>

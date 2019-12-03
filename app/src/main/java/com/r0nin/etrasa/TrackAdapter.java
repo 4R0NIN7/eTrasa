@@ -1,6 +1,8 @@
 package com.r0nin.etrasa;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +30,7 @@ public class TrackAdapter extends RecyclerView.Adapter{
         public TextView mDescription;
         public TextView mCreatedBy;
         public Button buttonPlay;
+        public Button buttonChangeTrack;
 
         public MyViewHolder(View pItem) {
             super(pItem);
@@ -34,6 +38,7 @@ public class TrackAdapter extends RecyclerView.Adapter{
             mDescription =  pItem.findViewById(R.id.trackDescription);
             mCreatedBy =  pItem.findViewById(R.id.trackCreatedBy);
             buttonPlay = pItem.findViewById(R.id.buttonPlay);
+            buttonChangeTrack = pItem.findViewById(R.id.buttonChangeTrack);
         }
     }
 
@@ -64,6 +69,39 @@ public class TrackAdapter extends RecyclerView.Adapter{
                     Toast.makeText(mActivity.getApplicationContext(),"This function is not yet programmed here",Toast.LENGTH_LONG).show();
                 }
             });
+            if(track.getUserId().equals(firebaseUser.getUid())){
+                ((MyViewHolder) holder).buttonChangeTrack.setVisibility(View.VISIBLE);
+                ((MyViewHolder) holder).buttonChangeTrack.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Map<String, Point> points = track.getPoints();
+                        ArrayList<String> lat = new ArrayList<>();
+                        ArrayList<String> lng = new ArrayList<>();
+                        ArrayList<String> radius = new ArrayList<>();
+                        ArrayList<Integer> numer = new ArrayList<>();
+                        ArrayList<String> title = new ArrayList<>();
+                        ArrayList<String> description = new ArrayList<>();
+                        for (Map.Entry<String, Point> entry : points.entrySet()) {
+                            Point p = entry.getValue();
+                            lat.add(""+p.getLat());
+                            lng.add(""+p.getLng());
+                            radius.add(""+p.getRadius());
+                            numer.add(p.getNumer());
+                            title.add(p.getTitle());
+                            description.add(p.getDescription());
+                        }
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context,TrackActivity.class);
+                        intent.putIntegerArrayListExtra("numer",numer);
+                        intent.putStringArrayListExtra("title",title);
+                        intent.putStringArrayListExtra("description",description);
+                        intent.putStringArrayListExtra("radius",radius);
+                        intent.putStringArrayListExtra("lat",lat);
+                        intent.putStringArrayListExtra("lng",lng);
+                        context.startActivity(intent);
+                    }
+                });
+            }
         }
     }
 

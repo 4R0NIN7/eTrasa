@@ -97,5 +97,6 @@
     <string name="add_track_to_database">End and create track</string>
     <string name="give_title_for_track">Give title for track</string>
     <string name="track_is_empty">Title for track or description is empty</string>
-
+    <string name="deleted_marker">Marker was deleted</string>
+    <string name="change_track">Change track</string>
 </resources>

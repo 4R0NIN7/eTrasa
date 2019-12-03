@@ -8,7 +8,6 @@ public class Point {
     public String title;
     public String description;
     public String userId;
-    public String keyTrack;
     public int numer;
     public double radius;
     @Exclude
@@ -28,4 +27,27 @@ public class Point {
         this.radius = radius;
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public int getNumer() {
+        return numer;
+    }
 }
