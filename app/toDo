@@ -1,19 +1,6 @@
-02.12.2019
-1. Tworzenie trackow. Dodać jak clikne w marker to moge cos tam mu pozmieniac jakies rzeczy. Ewentualnie potem to zrobie w nastepnej aktywnosci.
-Dodanie nowej activity z lista punktow. Tam dodam opis.
-https://www.simplifiedcoding.net/firebase-realtime-database-crud/
-2. Dialog i przesyłanie danych
-https://stackoverflow.com/questions/4279787/how-can-i-pass-values-between-a-dialog-and-an-activity
-3. RecycleView trzeba zastosować w MainActivity i ściągać trasy -> pobiera mi imie wiec na pewno pobierze mi moje wartosci dobre.
-https://damianchodorek.com/kurs-android-lista-siatka-recyclerview-viewholder-cardview-karty-cien-adapter-wzorzec-16/?fbclid=IwAR0Q0EegaFMllXkydgcdF4nFZLVNJLXk1P4az36DbhQmonOZFtYxtvqRJJc
-https://dragosholban.com/2018/05/13/build-an-instagram-like-android-app-using-google-firebase/?fbclid=IwAR2tmsBD9BU_98Tpp6DXT1xXgwK3SkHH5Z4_QIxyaq6qLxE2sV5dNGn7aSg
-https://docs.mapbox.com/android/maps/examples/recyclerview-interaction/
-4. Dodanie edycji punktów (przytrzymanie markera dłużej; potem w liście zaznaczyć te które się zmieniły przez dodanie koloru innego).
-Expand na cell listy
-https://stackoverflow.com/questions/12522348/how-can-i-make-a-cell-in-a-listview-in-android-expand-and-contract-vertically-wh
------------------------------------------------------------------------
-03.12.2019
-Odpalanie szlaków (może w tle jednak zrobie).
-Dodanie raitingu szlaków raiting jako activity -> raiting jest kontrolka.
-Wysyłanie powiadomień z apki jak dostane ocene nową (na dole w lajkach czyli u mnie raiting; dodatkowo wysyłanie zdjęć ze szlaków pk uri fk pk_szlaku data zdjęcie1)
+03.12.2019 - 09.12.2019
+1. Dodanie edycji punktów (przytrzymanie markera dłużej; potem w liście zaznaczyć te które się zmieniły przez dodanie koloru innego).
+2. Odpalanie szlaków (może w tle jednak zrobie).
+3. Dodanie raitingu szlaków raiting jako activity -> raiting jest kontrolka.
+4. Wysyłanie powiadomień z apki jak dostane ocene nową (na dole w lajkach czyli u mnie raiting; dodatkowo wysyłanie zdjęć ze szlaków pk uri fk pk_szlaku data zdjęcie1)
 https://dragosholban.com/2018/05/13/build-an-instagram-like-android-app-using-google-firebase/?fbclid=IwAR2mc2sk3EIfozr4rcr6Vn4HwX8nkqa8Fm89l2cgsmsgwqs3pPvRApl30aw
