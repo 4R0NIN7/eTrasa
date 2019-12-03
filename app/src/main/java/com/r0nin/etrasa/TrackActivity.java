@@ -58,13 +58,11 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     protected Circle circle;
     protected Marker marker;
 
-    protected ArrayList<Marker> markers = new ArrayList<>();
-    protected ArrayList<Circle> circles = new ArrayList<>();
 
 
 
 
-    private String TAG = "MapsActivity";
+    private String TAG = "TrackActivity";
     private boolean permissionsGranted = false, gpsEnabled = false;
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -84,21 +82,24 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private static int  numer = 0;
 
     private ArrayList<Integer> numerAL = new ArrayList<>();
-    private ArrayList<String> titlesAL = new ArrayList<String>();
-    private ArrayList<String> radiusAL = new ArrayList<String>();
+    private ArrayList<String> titlesAL = new ArrayList<>();
+    private ArrayList<String> radiusAL = new ArrayList<>();
     private ArrayList<String> latAL = new ArrayList<>();
     private ArrayList<String> lngAL = new ArrayList<>();
 
 
     /*-----------------------------------------------------------*/
-    ArrayList<String> lat = new ArrayList<>();
-    ArrayList<String> lng = new ArrayList<>();
-    ArrayList<String> radiusString = new ArrayList<>();
-    ArrayList<Integer> numers = new ArrayList<>();
-    ArrayList<String> title = new ArrayList<>();
-    ArrayList<String> description = new ArrayList<>();
-    ArrayList<LatLng> latLngs = new ArrayList<>();
-    ArrayList<Double> radiusDouble = new ArrayList<>();
+    protected ArrayList<String> lat = new ArrayList<>();
+    protected ArrayList<String> lng = new ArrayList<>();
+    protected ArrayList<String> radiusString = new ArrayList<>();
+    protected ArrayList<Integer> numers = new ArrayList<>();
+    protected ArrayList<String> title = new ArrayList<>();
+    protected ArrayList<String> description = new ArrayList<>();
+    protected ArrayList<LatLng> latLngs = new ArrayList<>();
+    protected ArrayList<Double> radiusDouble = new ArrayList<>();
+    protected ArrayList<Marker> markers = new ArrayList<>();
+    protected ArrayList<Circle> circles = new ArrayList<>();
+    protected String trackTitle, trackDescription, keyTrack;
 
 
     private LocationManager locationManager;
@@ -106,7 +107,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     protected ImageView settingsDataTrack, endSettingTrack;
-
+    protected boolean changeTrack = false;
 
 
 
@@ -135,13 +136,18 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),CreateTrack.class);
-
                 if(!titlesAL.isEmpty()) {
                     intent.putStringArrayListExtra("titles", titlesAL);
                     intent.putStringArrayListExtra("radius", radiusAL);
                     intent.putStringArrayListExtra("latAL", latAL);
                     intent.putStringArrayListExtra("lngAL", lngAL);
                     intent.putIntegerArrayListExtra("numerAL", numerAL);
+                    if(changeTrack){
+                        intent.putExtra("trackDescription", trackDescription);
+                        intent.putExtra("trackTitle", trackTitle);
+                        intent.putExtra("keyTrack", keyTrack);
+                        intent.putStringArrayListExtra("description",description);
+                    }
                     startActivity(intent);
                     finish();
                 }else
@@ -150,19 +156,46 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         });
 
         Intent i = getIntent();
-        if(i.hasExtra("lat")){
-            //Null reference
-            // setMarkersOnMapFromIntent(i);
+        if(i.hasExtra("lat") || i.hasExtra("lng") || i.hasExtra("radius") || i.hasExtra("description") ||
+                i.hasExtra("title") || i.hasExtra("numer") || i.hasExtra("trackDescription") || i.hasExtra("trackTitle")){
+            changeTrack = true;
         }
 
 
-    }
+
+        }
 
     protected void setMarkersOnMapFromIntent(Intent intent){
         setData(intent);
         for(int i=0;i<latLngs.size();i++){
-            setMarkerWithCircleFromIntent(latLngs.get(i),title.get(i),radiusDouble.get(i));
+            setMarkerWithCircleFromIntent(latLngs.get(i),title.get(i),radiusDouble.get(i),numers.get(i));
         }
+    }
+    private void setMarkerWithCircleFromIntent(LatLng latLng,String title, double radius, int numerS){
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(""+radius)
+                .visible(true)
+                .draggable(true);
+        CircleOptions circleOptions = new CircleOptions()
+                .center(latLng)
+                .radius(radius)
+                .strokeColor(Color.RED)
+                .visible(true);
+
+        marker = mMap.addMarker(markerOptions);
+        circle = mMap.addCircle(circleOptions);
+        Log.i(TAG,"Options added");
+        markers.add(marker);
+        circles.add(circle);
+        titlesAL.add(title);
+        radiusAL.add(String.valueOf(radius));
+        latAL.add(String.valueOf(latLng.latitude));
+        lngAL.add(String.valueOf(latLng.longitude));
+        numerAL.add(numerS);
+        numerS++; //zwiekszam numer ten ktory byl podany z intenta
+        numer = numerS; //przypisuje numera wartosc do zmiennej globalnej numer
     }
 
     protected void setData(Intent intent){
@@ -172,6 +205,9 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         description = intent.getStringArrayListExtra("description");
         title = intent.getStringArrayListExtra("title");
         numers = intent.getIntegerArrayListExtra("numer");
+        trackTitle = intent.getStringExtra("trackTitle");
+        trackDescription = intent.getStringExtra("trackDescription");
+        keyTrack = intent.getStringExtra("keyTrack");
         for(int i=0;i<lat.size();i++){
             double lt = Double.valueOf(lat.get(i));
             double lg = Double.valueOf(lng.get(i));
@@ -180,6 +216,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             latLngs.add(latLng);
             radiusDouble.add(rd);
         }
+        Log.i(TAG,"setData initialized");
     }
 
     public void openDialog(){
@@ -187,10 +224,6 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         createPointDialog.show(getSupportFragmentManager(), "Create Dialog");
     }
 
-    public void openDialog(String title, int radius){
-        CreatePointDialog createPointDialog = new CreatePointDialog();
-        createPointDialog.show(getSupportFragmentManager(), "Create Dialog");
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -237,6 +270,18 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
                 }
             });
+            Intent i = getIntent();
+            if(changeTrack){
+                try {
+                    Log.i(TAG,"try");
+                    setMarkersOnMapFromIntent(i);
+                }catch (NullPointerException nullEx){
+                    nullEx.printStackTrace();
+                    Log.i(TAG,"NullPointerException");
+                }catch (Exception ex){
+                    Log.i(TAG,"Exception");
+                }
+            }
 
         }
 
@@ -304,31 +349,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         numer++;
     }
 
-    private void setMarkerWithCircleFromIntent(LatLng latLng,String title, double radius){
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(""+radius)
-                .visible(true)
-                .draggable(true);
-        CircleOptions circleOptions = new CircleOptions()
-                .center(latLng)
-                .radius(radius)
-                .strokeColor(Color.RED)
-                .visible(true);
-        marker = mMap.addMarker(markerOptions);
-        circle = mMap.addCircle(circleOptions);
-        markers.add(marker);
-        circles.add(circle);
-        titlesAL.add(title);
-        radiusAL.add(String.valueOf(radius));
-        latAL.add(String.valueOf(latLng.latitude));
-        lngAL.add(String.valueOf(latLng.longitude));
-        //Toast.makeText(this, String.valueOf(latLng.latitude), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, "AL: " + Double.parseDouble(latAL.get(numer)), Toast.LENGTH_SHORT).show();
-        numerAL.add(numer);
-        numer++;
-    }
+
 
 
     private void initializeMap() {

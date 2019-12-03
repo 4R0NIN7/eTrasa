@@ -34,4 +34,8 @@ public class Track {
     public Map<String, Point>  getPoints(){
         return points;
     }
+
+    public String getKeyTrack() {
+        return keyTrack;
+    }
 }

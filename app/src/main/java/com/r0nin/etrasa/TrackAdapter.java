@@ -3,6 +3,8 @@ package com.r0nin.etrasa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,7 @@ public class TrackAdapter extends RecyclerView.Adapter{
     private ArrayList<Track> mDataset;
     private MainActivity mActivity;
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
+    private String TAG = "TrackAdapter";
     private class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mTitle;
         public TextView mDescription;
@@ -81,6 +83,9 @@ public class TrackAdapter extends RecyclerView.Adapter{
                         ArrayList<Integer> numer = new ArrayList<>();
                         ArrayList<String> title = new ArrayList<>();
                         ArrayList<String> description = new ArrayList<>();
+                        String trackDescription = track.getDescription();
+                        String trackTitle = track.getTitle();
+                        String keyTrack = track.getKeyTrack();
                         for (Map.Entry<String, Point> entry : points.entrySet()) {
                             Point p = entry.getValue();
                             lat.add(""+p.getLat());
@@ -92,13 +97,27 @@ public class TrackAdapter extends RecyclerView.Adapter{
                         }
                         Context context = v.getContext();
                         Intent intent = new Intent(context,TrackActivity.class);
-                        intent.putIntegerArrayListExtra("numer",numer);
-                        intent.putStringArrayListExtra("title",title);
-                        intent.putStringArrayListExtra("description",description);
-                        intent.putStringArrayListExtra("radius",radius);
-                        intent.putStringArrayListExtra("lat",lat);
-                        intent.putStringArrayListExtra("lng",lng);
+                        if(!numer.isEmpty())
+                            intent.putIntegerArrayListExtra("numer",numer);
+                        if(!title.isEmpty())
+                            intent.putStringArrayListExtra("title",title);
+                        if(!description.isEmpty())
+                            intent.putStringArrayListExtra("description",description);
+                        if(!radius.isEmpty())
+                            intent.putStringArrayListExtra("radius",radius);
+                        if(!lat.isEmpty())
+                            intent.putStringArrayListExtra("lat",lat);
+                        if(!lng.isEmpty())
+                            intent.putStringArrayListExtra("lng",lng);
+                        if(!TextUtils.isEmpty(trackDescription))
+                            intent.putExtra("trackDescription",trackDescription);
+                        if(!TextUtils.isEmpty(trackTitle))
+                            intent.putExtra("trackTitle",trackTitle);
+                        if(!TextUtils.isEmpty(trackTitle))
+                            intent.putExtra("keyTrack",keyTrack);
+                        Log.i(TAG,"All set");
                         context.startActivity(intent);
+
                     }
                 });
             }
