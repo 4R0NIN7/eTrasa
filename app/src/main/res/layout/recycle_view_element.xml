@@ -13,7 +13,7 @@
         android:background="@color/buttonSave"
         android:text="Title"
         android:textColor="#333"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/trackDescription"
@@ -23,7 +23,7 @@
         android:background="@color/buttonFifth"
         android:text="Description"
         android:textColor="@color/buttonText"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/trackCreatedBy"
@@ -33,7 +33,7 @@
         android:background="@color/buttonSecond"
         android:text="CreatedBy"
         android:textColor="@color/buttonText"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/buttonPlay"
@@ -48,10 +48,10 @@
         android:id="@+id/buttonChangeTrack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/buttonLogIn"
+        android:background="@color/buttonFourth"
+        android:text="@string/change_track"
         android:textColor="@color/buttonText"
         android:textSize="14sp"
-        android:visibility="gone"
-        android:text="@string/change_track" />
+        android:visibility="gone" />
 
 </LinearLayout>
