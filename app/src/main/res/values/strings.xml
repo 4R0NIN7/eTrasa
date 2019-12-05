@@ -99,4 +99,5 @@
     <string name="track_is_empty">Title for track or description is empty</string>
     <string name="deleted_marker">Marker was deleted</string>
     <string name="change_track">Change track</string>
+    <string name="title_activity_play_track">Map</string>
 </resources>
