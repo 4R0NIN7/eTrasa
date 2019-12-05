@@ -100,4 +100,7 @@
     <string name="deleted_marker">Marker was deleted</string>
     <string name="change_track">Change track</string>
     <string name="title_activity_play_track">Map</string>
+
+    <string name="not_in_circle">You are not in the circle</string>
+
 </resources>

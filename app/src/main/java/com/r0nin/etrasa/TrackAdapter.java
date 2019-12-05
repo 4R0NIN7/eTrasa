@@ -68,7 +68,9 @@ public class TrackAdapter extends RecyclerView.Adapter{
             ((MyViewHolder) holder).buttonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mActivity.getApplicationContext(),"This function is not yet programmed here",Toast.LENGTH_LONG).show();
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context,PlayTrack.class);
+                    context.startActivity(intent);
                 }
             });
             if(track.getUserId().equals(firebaseUser.getUid())){
