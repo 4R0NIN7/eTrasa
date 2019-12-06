@@ -1,5 +1,3 @@
-03.12.2019 - 09.12.2019
-1. Odpalanie szlaków (może w tle jednak zrobie).
-2. Dodanie raitingu szlaków raiting jako activity -> raiting jest kontrolka.
-3. Wysyłanie powiadomień z apki jak dostane ocene nową (na dole w lajkach czyli u mnie raiting; dodatkowo wysyłanie zdjęć ze szlaków pk uri fk pk_szlaku data zdjęcie1)
 https://dragosholban.com/2018/05/13/build-an-instagram-like-android-app-using-google-firebase/?fbclid=IwAR2mc2sk3EIfozr4rcr6Vn4HwX8nkqa8Fm89l2cgsmsgwqs3pPvRApl30aw
+07.12.2019
+Dodanie robienia zdjęcia (chyba że już mam użycie mediaplayera).
