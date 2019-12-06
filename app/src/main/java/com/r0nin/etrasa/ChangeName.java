@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +14,11 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ChangeName extends AppCompatActivity {
 
@@ -23,6 +27,8 @@ public class ChangeName extends AppCompatActivity {
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     protected final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    protected FirebaseDatabase db = FirebaseDatabase.getInstance();
+    protected DatabaseReference usersRef = db.getReference("tracks");
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +66,31 @@ public class ChangeName extends AppCompatActivity {
         progressDialog.setTitle(R.string.progress_bar);
     }
 
+    private void changeDisplayNameTrack(){
 
-    private void save(String name) {
+    }
+
+
+    private void save(final String name) {
         progressDialog.show();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
         if (firebaseUser != null) {
             firebaseUser.updateProfile(profileUpdates);
             database.child("users").child(firebaseUser.getUid()).child("displayName").setValue(name);
+
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        Track track = ds.getValue(Track.class);
+                        if(track.getUserId().equals(firebaseUser.getUid()))
+                            usersRef.child(track.getKeyTrack()).child("displayName").setValue(name);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            };
+
             Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_SHORT).show();
             mAuth.signOut();
             Intent i = new Intent(ChangeName.this,LoginActivity.class);

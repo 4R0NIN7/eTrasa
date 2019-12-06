@@ -15,6 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,21 +31,31 @@ public class TrackAdapter extends RecyclerView.Adapter{
     private ArrayList<Track> mDataset;
     private MainActivity mActivity;
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("tracks");
+
     private String TAG = "TrackAdapter";
     private class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mTitle;
         public TextView mDescription;
-        public TextView mCreatedBy;
+        public TextView mCreatedBy, mRate;
         public Button buttonPlay;
         public Button buttonChangeTrack;
+        public Button buttonRate;
+        public Button buttonDeleteTrack;
+
+        protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         public MyViewHolder(View pItem) {
             super(pItem);
             mTitle = pItem.findViewById(R.id.trackTitle);
             mDescription =  pItem.findViewById(R.id.trackDescription);
             mCreatedBy =  pItem.findViewById(R.id.trackCreatedBy);
+            mRate =  pItem.findViewById(R.id.trackRating);
             buttonPlay = pItem.findViewById(R.id.buttonPlay);
             buttonChangeTrack = pItem.findViewById(R.id.buttonChangeTrack);
+            buttonRate = pItem.findViewById(R.id.buttonRating);
+            buttonDeleteTrack = pItem.findViewById(R.id.buttonDeleteTrack);
         }
     }
 
@@ -59,17 +74,56 @@ public class TrackAdapter extends RecyclerView.Adapter{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final Track track =  mDataset.get(position);
         if(track.getUserId() != null) {
             ((MyViewHolder) holder).mTitle.setText(track.getTitle());
             ((MyViewHolder) holder).mDescription.setText(track.getDescription());
-            ((MyViewHolder) holder).mCreatedBy.setText(firebaseUser.getDisplayName());
+            ((MyViewHolder) holder).mCreatedBy.setText(track.getDisplayName());
+            ((MyViewHolder) holder).mRate.setText(String.valueOf(track.getRating()));
             ((MyViewHolder) holder).buttonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Map<String, Point> points = track.getPoints();
+                    ArrayList<String> lat = new ArrayList<>();
+                    ArrayList<String> lng = new ArrayList<>();
+                    ArrayList<String> radius = new ArrayList<>();
+                    ArrayList<Integer> numer = new ArrayList<>();
+                    ArrayList<String> title = new ArrayList<>();
+                    ArrayList<String> description = new ArrayList<>();
+                    String trackDescription = track.getDescription();
+                    String trackTitle = track.getTitle();
+                    String keyTrack = track.getKeyTrack();
+                    for (Map.Entry<String, Point> entry : points.entrySet()) {
+                        Point p = entry.getValue();
+                        lat.add(""+p.getLat());
+                        lng.add(""+p.getLng());
+                        radius.add(""+p.getRadius());
+                        numer.add(p.getNumer());
+                        title.add(p.getTitle());
+                        description.add(p.getDescription());
+                    }
                     Context context = v.getContext();
                     Intent intent = new Intent(context,PlayTrack.class);
+                    if(!numer.isEmpty())
+                        intent.putIntegerArrayListExtra("numer",numer);
+                    if(!title.isEmpty())
+                        intent.putStringArrayListExtra("title",title);
+                    if(!description.isEmpty())
+                        intent.putStringArrayListExtra("description",description);
+                    if(!radius.isEmpty())
+                        intent.putStringArrayListExtra("radius",radius);
+                    if(!lat.isEmpty())
+                        intent.putStringArrayListExtra("lat",lat);
+                    if(!lng.isEmpty())
+                        intent.putStringArrayListExtra("lng",lng);
+                    if(!TextUtils.isEmpty(trackDescription))
+                        intent.putExtra("trackDescription",trackDescription);
+                    if(!TextUtils.isEmpty(trackTitle))
+                        intent.putExtra("trackTitle",trackTitle);
+                    if(!TextUtils.isEmpty(trackTitle))
+                        intent.putExtra("keyTrack",keyTrack);
+                    Log.i(TAG,"All set");
                     context.startActivity(intent);
                 }
             });
@@ -123,6 +177,39 @@ public class TrackAdapter extends RecyclerView.Adapter{
                     }
                 });
             }
+            if(track.getUserId().equals(firebaseUser.getUid())) {
+                ((MyViewHolder) holder).buttonDeleteTrack.setVisibility(View.VISIBLE);
+                ((MyViewHolder) holder).buttonDeleteTrack.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            myRef.child(track.getKeyTrack()).removeValue();
+                            deleteTrack(position);
+                            Log.d(TAG, "Remove value.");
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                            Log.d(TAG, "Failed Remove value.");
+                        }
+                    }
+                });
+            }
+                if(!track.getUserId().equals(firebaseUser.getUid())){
+                ((MyViewHolder) holder).buttonRate.setVisibility(View.VISIBLE);
+                final float sumOfRates = track.getSumOfRates();
+                final float howMuchPeople = track.getHowMuchPeople();
+                final String trackId = track.getKeyTrack();
+                ((MyViewHolder) holder).buttonRate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Context context = view.getContext();
+                        Intent intent = new Intent(context,Rating.class);
+                        intent.putExtra("trackId",trackId);
+                        intent.putExtra("sumOfRates",sumOfRates);
+                        intent.putExtra("howMuchPeople",howMuchPeople);
+                        context.startActivity(intent);
+                    }
+                });
+            }
         }
     }
 
@@ -135,4 +222,18 @@ public class TrackAdapter extends RecyclerView.Adapter{
         mDataset.add(0, track);
         notifyDataSetChanged();
     }
+
+    public void deleteTrack(int position) {
+        mDataset.remove(position);
+        notifyItemRangeChanged(position, mDataset.size());
+        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        Toast.makeText(mActivity,"Removed : ",Toast.LENGTH_SHORT).show();
+    }
+
+    private void createdBy(final String who){
+        final String displayName;
+
+    }
+
 }

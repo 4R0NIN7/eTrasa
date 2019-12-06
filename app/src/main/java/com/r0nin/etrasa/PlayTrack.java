@@ -15,9 +15,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +33,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,8 +46,8 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     private Location lastKnownLocation, currentLocation;
     private Circle circle;
     private Marker marker;
-    private ArrayList<Marker> markers;
-    private ArrayList<Circle> circles;
+
+
     private String TAG = "PlayTrack";
     private boolean permissionsGranted = false, gpsEnabled = false;
 
@@ -47,12 +55,26 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSIONS_REQUEST = 4321;
 
+    protected Vibrator vibrator;
+
     private static final float DEFAULT_ZOOM = 15; //Default zoom for camera
     private IntentFilter filterPowerDisconnected = new IntentFilter("GPSLocationUpdates");
     private LocationManager locationManager;
     public PlayTrack() {
     }
 
+    protected ArrayList<String> lat = new ArrayList<>();
+    protected ArrayList<String> lng = new ArrayList<>();
+    protected ArrayList<String> radiusString = new ArrayList<>();
+    protected ArrayList<Integer> numers = new ArrayList<>();
+    protected ArrayList<String> title = new ArrayList<>();
+    protected ArrayList<String> description = new ArrayList<>();
+    protected ArrayList<LatLng> latLngs = new ArrayList<>();
+    protected ArrayList<Double> radiusDouble = new ArrayList<>();
+    protected ArrayList<Marker> markers = new ArrayList<>();
+    protected ArrayList<Circle> circles = new ArrayList<>();
+    protected String trackTitle, trackDescription, keyTrack;
+    protected boolean playTrackReady = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +90,63 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         }else{
             showGPSDisabledAlertToUser();
         }
-        markers = new ArrayList<>();
-        circles = new ArrayList<>();
+        Intent i = getIntent();
+        if(i.hasExtra("lat") || i.hasExtra("lng") || i.hasExtra("radius") || i.hasExtra("description") ||
+                i.hasExtra("title") || i.hasExtra("numer") || i.hasExtra("trackDescription") || i.hasExtra("trackTitle")){
+            playTrackReady = true;
+        }
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
     }
+
+    protected void setMarkersOnMapFromIntent(Intent intent){
+        setData(intent);
+        for(int i=0;i<latLngs.size();i++){
+            setMarkerWithCircleFromIntent(latLngs.get(i),title.get(i),radiusDouble.get(i),description.get(i));
+        }
+    }
+    private void setMarkerWithCircleFromIntent(LatLng latLng,String title, double radius,String description){
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(description)
+                .visible(true)
+                .draggable(true);
+        CircleOptions circleOptions = new CircleOptions()
+                .center(latLng)
+                .radius(radius)
+                .strokeColor(Color.RED)
+                .visible(true);
+        marker = mMap.addMarker(markerOptions);
+        circle = mMap.addCircle(circleOptions);
+        Log.i(TAG,"Options added");
+        markers.add(marker);
+        circles.add(circle);
+    }
+
+    protected void setData(Intent intent){
+        lat = intent.getStringArrayListExtra("lat");
+        lng = intent.getStringArrayListExtra("lng");
+        radiusString = intent.getStringArrayListExtra("radius");
+        description = intent.getStringArrayListExtra("description");
+        title = intent.getStringArrayListExtra("title");
+        numers = intent.getIntegerArrayListExtra("numer");
+        trackTitle = intent.getStringExtra("trackTitle");
+        trackDescription = intent.getStringExtra("trackDescription");
+        keyTrack = intent.getStringExtra("keyTrack");
+        for(int i=0;i<lat.size();i++){
+            double lt = Double.valueOf(lat.get(i));
+            double lg = Double.valueOf(lng.get(i));
+            double rd = Double.valueOf(radiusString.get(i));
+            LatLng latLng = new LatLng(lt,lg);
+            latLngs.add(latLng);
+            radiusDouble.add(rd);
+        }
+        Log.i(TAG,"setData initialized");
+    }
+
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -85,6 +161,18 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        Intent i = getIntent();
+        if(playTrackReady){
+            try {
+                Log.i(TAG,"try");
+                setMarkersOnMapFromIntent(i);
+            }catch (NullPointerException nullEx){
+                nullEx.printStackTrace();
+                Log.i(TAG,"NullPointerException");
+            }catch (Exception ex){
+                Log.i(TAG,"Exception");
+            }
+        }
     }
 
     private void startLocationService(){
@@ -118,14 +206,19 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
             Bundle b = intent.getBundleExtra("Location");
             lastKnownLocation = (Location) b.getParcelable("Location");
             if (lastKnownLocation != null) {
-                //TU DODAJ AKTUALIZACJE POZYCJI NA MAPIE
                 Log.d(TAG, "Location: " + lastKnownLocation.getLatitude() + " " + lastKnownLocation.getLongitude());
                 currentLocation = lastKnownLocation;
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 moveCamera(latLng, DEFAULT_ZOOM, PlayTrack.this.getText(R.string.current_position).toString());
-                Toast.makeText(getApplicationContext(),""+latLng.latitude + " " + latLng.longitude,Toast.LENGTH_LONG).show();
-                //int closest = whichCircleIsClosest(circles);
-                //checkingInsideCircle(circles.get(closest),markers.get(closest));
+                //Toast.makeText(getApplicationContext(),""+latLng.latitude + " " + latLng.longitude,Toast.LENGTH_SHORT).show();
+                int closest = whichCircleIsClosest(circles);
+                Circle c = circles.get(closest);
+                Marker m = markers.get(closest);
+                if(checkWhichCircleIsGone(c,m))
+                    checkingInsideCircle(c,m);
+                else
+                    Toast.makeText(getApplicationContext(),getApplicationContext().getText(R.string.move_next),Toast.LENGTH_SHORT).show();
+
             }
         }
     };
@@ -202,6 +295,14 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
+    private boolean checkWhichCircleIsGone(Circle c,Marker m){
+        if(c.getStrokeColor() == Color.GREEN && !m.isVisible()){
+            return false;
+        }
+        else
+            return true;
+    }
+
     private int whichCircleIsClosest(ArrayList<Circle> circles){
         float[] distanceOneCircle = new float[1];
         ArrayList<Float> floats = new ArrayList<>();
@@ -231,8 +332,23 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         if(distance[0] > circle.getRadius()){
             Toast.makeText(this, this.getText(R.string.not_in_circle) + " " +  marker.getTitle(), Toast.LENGTH_SHORT).show();
         }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                r.play();
+            } else {
+                //deprecated in API 26
+                vibrator.vibrate(500);
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                r.play();
+            }
             InformationDialog informationDialog = new InformationDialog(PlayTrack.this, marker.getSnippet(),marker.getTitle());
             informationDialog.show();
+            circle.setStrokeColor(Color.GREEN);
+            circle.setVisible(true);
+            marker.setVisible(false);
         }
     }
 
@@ -244,16 +360,6 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         super.onStop();
         unregisterReceiver(mMessageReceiver);
     }
-
-
-    @Override
-    public void onPause() {
-        Log.i(TAG,"onPause");
-        super.onPause();
-        unregisterReceiver(mMessageReceiver);
-    }
-
-
 
 
 }

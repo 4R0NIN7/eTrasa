@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -55,11 +57,16 @@ public class LocationService extends Service {
             channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DESCRIPTION");
             mNotificationManager.createNotificationChannel(channel);
         }
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, PlayTrack.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
 
         Notification notification = new NotificationCompat.Builder(this, ChannelID)
-                .setContentTitle("")
-                .setContentText("").build();
-        //Start foreground service
+                .setSmallIcon(R.mipmap.ic_service_location)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .setContentTitle(getApplicationContext().getText(R.string.geo_locate))
+                .setContentText(getApplicationContext().getText(R.string.service_geo_locate)).build();
         startForeground(1, notification);
     }
 

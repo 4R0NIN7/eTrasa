@@ -18,4 +18,12 @@ public class User {
         this.displayName = displayName;
         this.token = token;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

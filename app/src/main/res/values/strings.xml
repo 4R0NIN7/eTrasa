@@ -99,8 +99,15 @@
     <string name="track_is_empty">Title for track or description is empty</string>
     <string name="deleted_marker">Marker was deleted</string>
     <string name="change_track">Change track</string>
+    <string name="delete_track">Delete track</string>
     <string name="title_activity_play_track">Map</string>
 
+    <string name="rate">Rate this track</string>
+    <string name="rating">Rating </string>
+    <string name="new_rate_success">Success</string>
     <string name="not_in_circle">You are not in the circle</string>
+    <string name="geo_locate">Geo Locate</string>
+    <string name="service_geo_locate">Service locates your device</string>
+    <string name="move_next">Move to the next one</string>
 
 </resources>

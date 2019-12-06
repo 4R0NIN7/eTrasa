@@ -258,6 +258,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 @Override
                 public void onMarkerDragStart(Marker marker) {
                     deleteMarker(marker);
+
                 }
 
                 @Override
@@ -293,6 +294,10 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             int index = markers.indexOf(marker);
             circles.remove(index);
             markers.remove(marker);
+            titlesAL.remove(index);
+            radiusAL.remove(index);
+            latAL.remove(index);
+            lngAL.remove(index);
             mMap.clear();
             for (int i = 0; i < markers.size(); i++) {
                 String title = markers.get(i).getTitle();
