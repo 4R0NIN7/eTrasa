@@ -47,6 +47,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity {
     protected SharedPreferences sharedpreferences;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TrackAdapter mAdapter;
     protected ArrayList<Track> tracks = new ArrayList<>();
+    protected ArrayList<String> keys = new ArrayList<>();
     protected RecyclerView.LayoutManager mLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new TrackAdapter(tracks, MainActivity.this);
-        recyclerView.setAdapter(mAdapter);
 
         try {
             dbTracks.addValueEventListener(new ValueEventListener() {
@@ -83,9 +83,16 @@ public class MainActivity extends AppCompatActivity {
                     for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                         Track track = dataSnapshot1.getValue(Track.class);
                         tracks.add(track);
+                        keys.add(track.getKeyTrack());
                         //Toast.makeText(getApplicationContext(), "onDataChange", Toast.LENGTH_SHORT).show();
+                        HashSet<Track> hashSet = new HashSet<Track>();
+                        hashSet.addAll(tracks);
+                        tracks.clear();
+                        tracks.addAll(hashSet);
                         Log.i(TAG, "onDataChange");
                     }
+                    mAdapter = new TrackAdapter(keys, tracks, MainActivity.this);
+                    recyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
                 }
 

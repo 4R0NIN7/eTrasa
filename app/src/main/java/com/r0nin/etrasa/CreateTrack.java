@@ -96,13 +96,17 @@ public class CreateTrack extends AppCompatActivity {
                 if(actual < titlesAL.size()) {
                     textViewPointName.setText(titlesAL.get(actual));
                     Log.i(TAG, "actual < titlesAL.size() " + actual);
-                    if(changeTrack)
+                    if(changeTrack && actual < descriptionAL.size())
                         editTextDescriptionPoint.setText(descriptionAL.get(actual));
+                    else
+                        editTextDescriptionPoint.setText("");
                 }else{
                     actual = 0;
                     textViewPointName.setText(titlesAL.get(actual));
-                    if(changeTrack)
+                    if(changeTrack && actual < descriptionAL.size())
                         editTextDescriptionPoint.setText(descriptionAL.get(actual));
+                    else
+                        editTextDescriptionPoint.setText("");
                     Log.i(TAG, "actual = 0; " + actual);
                 }
 
@@ -115,14 +119,18 @@ public class CreateTrack extends AppCompatActivity {
                 Log.i(TAG, "Actual " + actual);
                 if(actual > 0) {
                     textViewPointName.setText(titlesAL.get(actual));
-                    if(changeTrack)
+                    if(changeTrack && actual < descriptionAL.size())
                         editTextDescriptionPoint.setText(descriptionAL.get(actual));
+                    else
+                        editTextDescriptionPoint.setText("");
                     Log.i(TAG, "actual > 0 " + actual);
                 }else {
                     actual = titlesAL.size() - 1;
                     textViewPointName.setText(titlesAL.get(actual));
-                    if(changeTrack)
+                    if(changeTrack && actual < descriptionAL.size())
                         editTextDescriptionPoint.setText(descriptionAL.get(actual));
+                    else
+                        editTextDescriptionPoint.setText("");
                     Log.i(TAG, "actual = titlesAL.size() - 1; " + actual);
                 }
             }

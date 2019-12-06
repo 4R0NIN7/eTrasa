@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TrackAdapter extends RecyclerView.Adapter{
     private ArrayList<Track> mDataset;
+    private ArrayList<String> mKeys;
+
     private MainActivity mActivity;
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -59,8 +61,9 @@ public class TrackAdapter extends RecyclerView.Adapter{
         }
     }
 
-    public TrackAdapter(ArrayList<Track> tracks, MainActivity mainActivity){
+    public TrackAdapter(ArrayList<String>k,ArrayList<Track> tracks, MainActivity mainActivity){
         mDataset = tracks;
+        mKeys = k;
         mActivity = mainActivity;
     }
 
@@ -224,10 +227,14 @@ public class TrackAdapter extends RecyclerView.Adapter{
     }
 
     public void deleteTrack(int position) {
+        ArrayList<Track> tempTracks = new ArrayList<>();
         mDataset.remove(position);
+        mKeys.remove(position);
+        tempTracks.addAll(mDataset);
+        mDataset.clear();
         notifyItemRangeChanged(position, mDataset.size());
-        notifyDataSetChanged();
         notifyItemRemoved(position);
+        notifyDataSetChanged();
         Toast.makeText(mActivity,"Removed : ",Toast.LENGTH_SHORT).show();
     }
 
