@@ -57,7 +57,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
 
     protected Vibrator vibrator;
 
-    private static final float DEFAULT_ZOOM = 15; //Default zoom for camera
+    private static final float DEFAULT_ZOOM = 10; //Default zoom for camera
     private IntentFilter filterPowerDisconnected = new IntentFilter("GPSLocationUpdates");
     private LocationManager locationManager;
     public PlayTrack() {
@@ -209,7 +209,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                 Log.d(TAG, "Location: " + lastKnownLocation.getLatitude() + " " + lastKnownLocation.getLongitude());
                 currentLocation = lastKnownLocation;
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                moveCamera(latLng, DEFAULT_ZOOM, PlayTrack.this.getText(R.string.current_position).toString());
+                //moveCamera(latLng, DEFAULT_ZOOM, PlayTrack.this.getText(R.string.current_position).toString());
                 //Toast.makeText(getApplicationContext(),""+latLng.latitude + " " + latLng.longitude,Toast.LENGTH_SHORT).show();
                 int closest = whichCircleIsClosest(circles);
                 Circle c = circles.get(closest);
