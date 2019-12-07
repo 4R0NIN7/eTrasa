@@ -163,14 +163,17 @@ public class MainActivity extends AppCompatActivity {
         case R.id.createTrack:
             Intent intentCreateTrack = new Intent(getApplicationContext(),TrackActivity.class);
             startActivity(intentCreateTrack);
+            finish();
             return(true);
         case R.id.profile:
             Intent intentProfile = new Intent(getApplicationContext(),ManageProfile.class);
             startActivity(intentProfile);
+            finish();
             return(true);
         case R.id.settings:
             Intent intentSettings = new Intent(getApplicationContext(),Settings.class);
             startActivity(intentSettings);
+            finish();
             return(true);
         case R.id.about:
             Toast.makeText(this, R.string.about_toast, Toast.LENGTH_LONG).show();
