@@ -8,6 +8,8 @@
         android:id="@+id/titleDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/give_title_for_track"
+        android:textAlignment="center"
         android:textColor="@color/buttonText"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -15,8 +17,10 @@
     <TextView
         android:id="@+id/information"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:scrollbars="vertical"
+        android:text="@string/description"
+        android:textAlignment="gravity"
         android:textColor="@color/buttonText"
         android:textSize="18sp" />
 
@@ -29,11 +33,11 @@
 
         <Button
             android:id="@+id/btnReturn"
-            style="@android:style/Widget.Holo.Button.Inset"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@color/buttonLogIn"
-            android:text="Return"
+            android:text="@string/return_to_main_app"
             android:textColor="@color/buttonText"
             android:textStyle="bold" />
     </LinearLayout>

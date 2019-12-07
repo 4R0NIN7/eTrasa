@@ -109,5 +109,6 @@
     <string name="geo_locate">Geo Locate</string>
     <string name="service_geo_locate">Service locates your device</string>
     <string name="move_next">Move to the next one</string>
+    <string name="return_to_main_app">Return</string>
 
 </resources>
