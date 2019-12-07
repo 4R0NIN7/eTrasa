@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -58,7 +60,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     protected Vibrator vibrator;
 
     private static final float DEFAULT_ZOOM = 10; //Default zoom for camera
-    private IntentFilter filterPowerDisconnected = new IntentFilter("GPSLocationUpdates");
+    private IntentFilter filterLocation = new IntentFilter("GPSLocationUpdates");
     private LocationManager locationManager;
     public PlayTrack() {
     }
@@ -75,14 +77,16 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     protected ArrayList<Circle> circles = new ArrayList<>();
     protected String trackTitle, trackDescription, keyTrack;
     protected boolean playTrackReady = true;
-
+    protected ImageView imageViewGoBack;
+    protected Intent serviceIntent;
+    private InformationDialog informationDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_track);
         enableRuntimePermission();
         LocalBroadcastManager.getInstance(this).registerReceiver(
-                mMessageReceiver, filterPowerDisconnected);
+                mMessageReceiver, filterLocation);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             Toast.makeText(this, this.getText(R.string.gps_enabled), Toast.LENGTH_SHORT).show();
@@ -95,7 +99,20 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                 i.hasExtra("title") || i.hasExtra("numer") || i.hasExtra("trackDescription") || i.hasExtra("trackTitle")){
             playTrackReady = true;
         }
+        serviceIntent = new Intent(this, LocationService.class);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        imageViewGoBack = findViewById(R.id.imageViewGoBack);
+        imageViewGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                //stopService(serviceIntent);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
 
     }
 
@@ -177,7 +194,6 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
 
     private void startLocationService(){
         if(!isLocationServiceRunning()){
-            Intent serviceIntent = new Intent(this, LocationService.class);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
                 PlayTrack.this.startForegroundService(serviceIntent);
             }else{
@@ -216,9 +232,10 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                 Marker m = markers.get(closest);
                 if(checkWhichCircleIsGone(c,m))
                     checkingInsideCircle(c,m);
-                else
-                    Toast.makeText(getApplicationContext(),getApplicationContext().getText(R.string.move_next),Toast.LENGTH_SHORT).show();
-
+                else {
+                    if(isLocationServiceRunning())
+                        Toast.makeText(getApplicationContext(), getApplicationContext().getText(R.string.move_next), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };
@@ -306,7 +323,6 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     private int whichCircleIsClosest(ArrayList<Circle> circles){
         float[] distanceOneCircle = new float[1];
         ArrayList<Float> floats = new ArrayList<>();
-
         //Pętla wyliczająca dystans do każdego okręgu
         for (Circle c: circles) {
             Location.distanceBetween(currentLocation.getLatitude(), currentLocation.getLongitude(), c.getCenter().latitude, c.getCenter().longitude, distanceOneCircle);
@@ -328,9 +344,12 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
 
     private void checkingInsideCircle(Circle circle, Marker marker){
         float[] distance = new float[1];
+        informationDialog = new InformationDialog(PlayTrack.this, marker.getSnippet(),marker.getTitle());
         Location.distanceBetween(currentLocation.getLatitude(), currentLocation.getLongitude(), circle.getCenter().latitude, circle.getCenter().longitude, distance);
         if(distance[0] > circle.getRadius()){
-            Toast.makeText(this, this.getText(R.string.not_in_circle) + " " +  marker.getTitle(), Toast.LENGTH_SHORT).show();
+            if(isLocationServiceRunning()) {
+                Toast.makeText(this, this.getText(R.string.not_in_circle) + " " + marker.getTitle(), Toast.LENGTH_SHORT).show();
+            }
         }else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -344,7 +363,6 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                 Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
             }
-            InformationDialog informationDialog = new InformationDialog(PlayTrack.this, marker.getSnippet(),marker.getTitle());
             informationDialog.show();
             circle.setStrokeColor(Color.GREEN);
             circle.setVisible(true);
@@ -352,13 +370,17 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(mMessageReceiver, filterLocation);
+    }
 
     @Override
-    public void onStop() {
-        Log.i(TAG,"onStop");
-        super.onStop();
+    public void onPause() {
+        stopService(serviceIntent);
         unregisterReceiver(mMessageReceiver);
+        super.onPause();
     }
 
 

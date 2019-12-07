@@ -80,10 +80,16 @@ public class TrackAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final Track track =  mDataset.get(position);
         if(track.getUserId() != null) {
-            ((MyViewHolder) holder).mTitle.setText(track.getTitle());
-            ((MyViewHolder) holder).mDescription.setText(track.getDescription());
-            ((MyViewHolder) holder).mCreatedBy.setText(track.getDisplayName());
-            ((MyViewHolder) holder).mRate.setText(String.valueOf(track.getRating()));
+            ((MyViewHolder) holder).mTitle.setText("Title: " +track.getTitle());
+            ((MyViewHolder) holder).mDescription.setText("Description: "+track.getDescription());
+            ((MyViewHolder) holder).mCreatedBy.setText("Created by: "+track.getDisplayName());
+
+            Map<String,Float> usersWhichHaveRated = track.getUsersWhichHaveRated();
+            float rating = 0;
+            for (Map.Entry<String, Float> entry : usersWhichHaveRated.entrySet()) {
+                rating += entry.getValue();
+            }
+            ((MyViewHolder) holder).mRate.setText("Avg rating: "+String.valueOf(rating / usersWhichHaveRated.size()));
             ((MyViewHolder) holder).buttonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

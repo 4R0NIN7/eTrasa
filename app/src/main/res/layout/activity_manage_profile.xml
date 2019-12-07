@@ -9,28 +9,13 @@
     tools:context=".ManageProfile">
 
     <TextView
-        android:id="@+id/TextViewManageProfile"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:fontFamily="serif"
-        android:text="@string/manage_acc"
-        android:textAlignment="center"
-        android:textColor="#585858"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewNameDisplay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/textViewNameDisplay"
         style="@android:style/Widget.Material.EditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="348dp"
         android:background="@color/colorPrimary"
         android:ems="10"
         android:fontFamily="serif"
@@ -41,6 +26,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -50,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="330dp"
+        android:layout_marginBottom="296dp"
         android:background="@color/colorPrimary"
         android:ems="10"
         android:fontFamily="serif"
@@ -61,6 +47,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -73,6 +60,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/buttonChangeImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/buttonFifth"
+            android:text="@string/change_image"
+            android:textSize="18sp" />
+
+        <Button
             android:id="@+id/buttonChangeName"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
@@ -83,10 +78,6 @@
             android:textColor="#585858"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
 
         <Button
             android:id="@+id/buttonEmail"
@@ -101,10 +92,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
-
         <Button
             android:id="@+id/buttonPassword"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
@@ -116,10 +103,6 @@
             android:textColor="#585858"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
 
         <Button
             android:id="@+id/buttonBackManageProfile"
@@ -133,5 +116,18 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewManageProfile"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewNameDisplay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -111,4 +111,8 @@
     <string name="move_next">Move to the next one</string>
     <string name="return_to_main_app">Return</string>
 
+    <string name="upload_failed">Failed to upload an image</string>
+    <string name="upload_success">Uploaded image</string>
+    <string name="change_image">Change Image</string>
+
 </resources>

@@ -15,13 +15,13 @@ public class Track {
     public float sumOfRates;
     public float rating;
     public int howMuchPeople;
-    public Map<String, Float> ratesFrom;
+    public Map<String, Float> usersWhichHaveRated;
 
     public String rated;
 
     public Track(){}
 
-    public Track(String keyTrack, String userId, String title, Map<String, Point> points, String description, String displayName){
+    public Track(String keyTrack, String userId, String title, Map<String, Point> points, String description, String displayName, Map<String, Float> usersWhichHaveRated){
         this.keyTrack = keyTrack;
         this.points = points;
         this.userId = userId;
@@ -31,7 +31,7 @@ public class Track {
         this.sumOfRates = 0;
         this.howMuchPeople = 0;
         this.rating = 0;
-        this.ratesFrom = new HashMap<>();
+        this.usersWhichHaveRated = usersWhichHaveRated;
     }
 
     public void setSumOfRates(float sumOfRates){
@@ -78,15 +78,11 @@ public class Track {
     public String getDisplayName() {
         return displayName;
     }
-
-    public Map<String, Float> getRatesFrom() {
-        return ratesFrom;
-    }
-
     public String getRated(){
         return rated;
     }
-    public void setRatesFrom(Map<String, Float> ratesFrom) {
-        this.ratesFrom = ratesFrom;
+
+    public Map<String, Float> getUsersWhichHaveRated() {
+        return usersWhichHaveRated;
     }
 }

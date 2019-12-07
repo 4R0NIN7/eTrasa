@@ -188,7 +188,9 @@ public class CreateTrack extends AppCompatActivity {
             String KEY = database.child("tracks").push().getKey();
             String title = editTextTitleForTrack.getText().toString();
             String description = editTextDescriptionTrack.getText().toString();
-            Track track = new Track(KEY, firebaseUser.getUid(), title, points,description,firebaseUser.getDisplayName());
+            Map<String, Float> usersWhichHaveRated = new HashMap<>();
+            usersWhichHaveRated.put("Tymczasowy", (float) 0);
+            Track track = new Track(KEY, firebaseUser.getUid(), title, points,description,firebaseUser.getDisplayName(),usersWhichHaveRated);
             database.child("tracks").child(KEY).setValue(track);
             progressDialog.dismiss();
             //Toast.makeText(getApplicationContext(), "Added to DB", Toast.LENGTH_SHORT).show();
@@ -204,7 +206,8 @@ public class CreateTrack extends AppCompatActivity {
             progressDialog.show();
             String title = editTextTitleForTrack.getText().toString();
             String description = editTextDescriptionTrack.getText().toString();
-            Track track = new Track(KEY, firebaseUser.getUid(), title, points,description,firebaseUser.getDisplayName());
+            Map<String, Float> usersWhichHaveRated = new HashMap<>();
+            Track track = new Track(KEY, firebaseUser.getUid(), title, points,description,firebaseUser.getDisplayName(),usersWhichHaveRated);
             database.child("tracks").child(KEY).setValue(track);
             progressDialog.dismiss();
             //Toast.makeText(getApplicationContext(), "Added to DB", Toast.LENGTH_SHORT).show();

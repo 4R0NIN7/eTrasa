@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Rating extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class Rating extends AppCompatActivity {
     private float sumOfRates;
     private int howMuchPeople;
     private String trackId;
-    private Map<String, Float> usersWhichHaveRated;
+    private Map<String, Float> usersWhichHaveRated = new HashMap<>();
 
     protected final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
@@ -76,9 +77,22 @@ public class Rating extends AppCompatActivity {
                             float s1 = sumOfRates+rat;
                             float s2 = howMuchPeople+1;
                             final float score = s1/s2;
-                            usersRef.child(track.getKeyTrack()).child("rating").setValue(score);
-                            usersRef.child(track.getKeyTrack()).child("sumOfRates").setValue(sumOfRates+rat);
-                            usersRef.child(track.getKeyTrack()).child("howMuchPeople").setValue(howMuchPeople+1);
+                            usersWhichHaveRated = track.getUsersWhichHaveRated();
+                            if(usersWhichHaveRated != null) {
+                                usersWhichHaveRated.put(firebaseUser.getUid(), rat);
+                                usersRef.child(track.getKeyTrack()).child("rating").setValue(score);
+                                usersRef.child(track.getKeyTrack()).child("sumOfRates").setValue(sumOfRates + rat);
+                                usersRef.child(track.getKeyTrack()).child("howMuchPeople").setValue(howMuchPeople + 1);
+                                usersRef.child(track.getKeyTrack()).child("usersWhichHaveRated").setValue(usersWhichHaveRated);
+                            }else
+                            {
+                                usersWhichHaveRated = new HashMap<>();
+                                usersWhichHaveRated.put(firebaseUser.getUid(), rat);
+                                usersRef.child(track.getKeyTrack()).child("rating").setValue(score);
+                                usersRef.child(track.getKeyTrack()).child("sumOfRates").setValue(sumOfRates + rat);
+                                usersRef.child(track.getKeyTrack()).child("howMuchPeople").setValue(howMuchPeople + 1);
+                                usersRef.child(track.getKeyTrack()).child("usersWhichHaveRated").setValue(usersWhichHaveRated);
+                            }
                         }
                     }
                 }

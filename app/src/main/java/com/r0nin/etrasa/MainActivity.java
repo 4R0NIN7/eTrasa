@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         HashSet<Track> hashSet = new HashSet<Track>();
                         hashSet.addAll(tracks);
                         tracks.clear();
-                        tracks.addAll(hashSet);
+                        tracks.addAll(0,hashSet);
                         Log.i(TAG, "onDataChange");
                     }
                     mAdapter = new TrackAdapter(keys, tracks, MainActivity.this);
