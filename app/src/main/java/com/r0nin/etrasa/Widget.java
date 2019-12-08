@@ -20,7 +20,8 @@ public class Widget extends AppWidgetProvider {
         for (int i = 0; i < N; i++) {
             int appWidgetId = appWidgetIds[i];
             Intent intent = new Intent(context, LoginActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            intent.putExtra("FromWidget",true);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             // Get the layout for the App Widget and attach an on-click listener
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
             views.setOnClickPendingIntent(R.id.widget_login, pendingIntent);

@@ -43,7 +43,10 @@ public class ChangeName extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save(editTextName.getText().toString());
+                if(!editTextName.getText().toString().isEmpty())
+                    save(editTextName.getText().toString());
+                else
+                    Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_empty), Toast.LENGTH_SHORT).show();
             }
         });
 

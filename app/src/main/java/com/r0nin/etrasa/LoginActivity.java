@@ -101,8 +101,13 @@ public class LoginActivity extends AppCompatActivity {
                 editTextPassword.setText(sharedpreferences.getString(KEY_PASSWORD, ""));
             }
         }
-
-
+        Intent intent = getIntent();
+        if(remember) {
+            if (intent.hasExtra("FromWidget")) {
+                signIn(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                Log.i(TAG, "getIntent: Success!");
+            }
+        }
     }
 
 

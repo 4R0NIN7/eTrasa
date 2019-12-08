@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -41,6 +42,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+
+import static com.r0nin.etrasa.LoginActivity.STORE_LOG;
 
 public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
 
@@ -80,6 +83,8 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     protected ImageView imageViewGoBack;
     protected Intent serviceIntent;
     private InformationDialog informationDialog;
+    private SharedPreferences sharedpreferences;
+    private boolean debug_mode = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,12 +107,15 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         serviceIntent = new Intent(this, LocationService.class);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         imageViewGoBack = findViewById(R.id.imageViewGoBack);
+        sharedpreferences = getSharedPreferences(STORE_LOG,
+                Context.MODE_PRIVATE);
+        boolean debug_mode = sharedpreferences.getBoolean("debug_mode",false);
         imageViewGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                //stopService(serviceIntent);
-                startActivity(intent);
+                stopService(serviceIntent);
+                unregisterReceiver(mMessageReceiver);
                 finish();
 
             }
@@ -233,8 +241,11 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                 if(checkWhichCircleIsGone(c,m))
                     checkingInsideCircle(c,m);
                 else {
-                    if(isLocationServiceRunning())
-                        Toast.makeText(getApplicationContext(), getApplicationContext().getText(R.string.move_next), Toast.LENGTH_SHORT).show();
+                    if(isLocationServiceRunning()) {
+                        if(debug_mode) {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getText(R.string.move_next), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         }
@@ -348,7 +359,8 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         Location.distanceBetween(currentLocation.getLatitude(), currentLocation.getLongitude(), circle.getCenter().latitude, circle.getCenter().longitude, distance);
         if(distance[0] > circle.getRadius()){
             if(isLocationServiceRunning()) {
-                Toast.makeText(this, this.getText(R.string.not_in_circle) + " " + marker.getTitle(), Toast.LENGTH_SHORT).show();
+                if(debug_mode)
+                    Toast.makeText(this, this.getText(R.string.not_in_circle) + " " + marker.getTitle(), Toast.LENGTH_SHORT).show();
             }
         }else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -378,9 +390,16 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
 
     @Override
     public void onPause() {
-        stopService(serviceIntent);
-        unregisterReceiver(mMessageReceiver);
+        //stopService(serviceIntent);
+        //unregisterReceiver(mMessageReceiver);
         super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        //stopService(serviceIntent);
+        //unregisterReceiver(mMessageReceiver);
+        super.onStop();
     }
 
 

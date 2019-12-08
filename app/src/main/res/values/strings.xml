@@ -50,9 +50,11 @@
     <string name="old_email_mismatch">Emails are the same!</string>
     <string name="email_empty">Enter data to boxes!</string>
     <string name="save">Save</string>
+    <string name="data_empty">Empty data. Cannot login</string>
 
     <string name="new_name">Enter your name</string>
     <string name="new_name_success">Your name was changed</string>
+    <string name="new_name_empty">Enter name to box</string>
 
     <string name="old_password">Enter your previous password</string>
     <string name="new_password">Enter your new password</string>
@@ -60,6 +62,7 @@
 
     <string name="remember_my_login">Remember my login</string>
     <string name="show_notifications">Show notifications</string>
+    <string name="debug_mode">Debug mode</string>
 
     <string name="Settings">Settings</string>
 

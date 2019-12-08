@@ -38,7 +38,7 @@ public class LocationService extends Service {
 
     protected static String ChannelID = "LocationID",  ChannelName = "Location";
     private static final String TAG = "LocationService";
-
+    //https://developer.android.com/guide/components/services#ExtendingService
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -74,7 +74,7 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: called.");
         getLocation();
-        return START_NOT_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     private void getLocation() {
