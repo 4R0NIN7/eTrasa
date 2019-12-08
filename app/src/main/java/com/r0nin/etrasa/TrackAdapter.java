@@ -249,12 +249,7 @@ public class TrackAdapter extends RecyclerView.Adapter{
         notifyItemRangeChanged(position, mDataset.size());
         notifyItemRemoved(position);
         notifyDataSetChanged();
-        Toast.makeText(mActivity,"Removed : ",Toast.LENGTH_SHORT).show();
-    }
-
-    private void createdBy(final String who){
-        final String displayName;
-
+        Toast.makeText(mActivity,mActivity.getText(R.string.track_deleted),Toast.LENGTH_SHORT).show();
     }
 
 }

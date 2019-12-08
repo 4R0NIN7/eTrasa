@@ -55,29 +55,33 @@ public class ChangeEmail extends AppCompatActivity {
 
 
     private void save(String oldEmail, final String newEmail) {
-        if (!oldEmail.equals(newEmail) && oldEmail.equals(user.getEmail())) {
-            progressDialog.show();
-            user.updateEmail(newEmail.trim())
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_success), Toast.LENGTH_LONG).show();
-                                mAuth.signOut();
-                                Intent i = new Intent(ChangeEmail.this,LoginActivity.class);
-                                database.child("users").child(user.getUid()).child("email").setValue(newEmail);
-                                progressDialog.dismiss();
-                                startActivity(i);
-                                finish();
-                            } else {
-                                Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_failed), Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
+        if (!oldEmail.isEmpty() || !newEmail.isEmpty()) {
+            if (!oldEmail.equals(newEmail) && oldEmail.equals(user.getEmail())) {
+                progressDialog.show();
+                user.updateEmail(newEmail.trim())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_success), Toast.LENGTH_SHORT).show();
+                                    mAuth.signOut();
+                                    Intent i = new Intent(ChangeEmail.this, LoginActivity.class);
+                                    database.child("users").child(user.getUid()).child("email").setValue(newEmail);
+                                    progressDialog.dismiss();
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.new_email_failed), Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
                             }
-                        }
-                    });
-        }
-        else{
-            Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.old_email_mismatch), Toast.LENGTH_LONG).show();
+                        });
+            } else {
+                Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.old_email_mismatch), Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+            }
+        } else {
+            Toast.makeText(ChangeEmail.this, getApplicationContext().getString(R.string.email_empty), Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
         }
     }

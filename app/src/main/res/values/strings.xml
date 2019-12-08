@@ -47,7 +47,8 @@
     <string name="new_email">Enter your new email</string>
     <string name="new_email_success">Updated email</string>
     <string name="new_email_failed">Failed to update new email</string>
-    <string name="old_email_mismatch">Actual email is not the same as old email!</string>
+    <string name="old_email_mismatch">Emails are the same!</string>
+    <string name="email_empty">Enter data to boxes!</string>
     <string name="save">Save</string>
 
     <string name="new_name">Enter your name</string>
@@ -114,5 +115,6 @@
     <string name="upload_failed">Failed to upload an image</string>
     <string name="upload_success">Uploaded image</string>
     <string name="change_image">Change Image</string>
+    <string name="track_deleted">Track was deleted</string>
 
 </resources>
