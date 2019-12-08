@@ -66,11 +66,6 @@ public class ChangeName extends AppCompatActivity {
         progressDialog.setTitle(R.string.progress_bar);
     }
 
-    private void changeDisplayNameTrack(){
-
-    }
-
-
     private void save(final String name) {
         progressDialog.show();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
