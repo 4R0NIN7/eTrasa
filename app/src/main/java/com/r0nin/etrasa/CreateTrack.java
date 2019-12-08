@@ -117,7 +117,7 @@ public class CreateTrack extends AppCompatActivity {
             public void onClick(View v) {
                 actual--;
                 Log.i(TAG, "Actual " + actual);
-                if(actual > 0) {
+                if(actual >= 0) {
                     textViewPointName.setText(titlesAL.get(actual));
                     if(changeTrack && actual < descriptionAL.size())
                         editTextDescriptionPoint.setText(descriptionAL.get(actual));
@@ -207,6 +207,7 @@ public class CreateTrack extends AppCompatActivity {
             String title = editTextTitleForTrack.getText().toString();
             String description = editTextDescriptionTrack.getText().toString();
             Map<String, Float> usersWhichHaveRated = new HashMap<>();
+            usersWhichHaveRated.put("Tymczasowy", (float) 0);
             Track track = new Track(KEY, firebaseUser.getUid(), title, points,description,firebaseUser.getDisplayName(),usersWhichHaveRated);
             database.child("tracks").child(KEY).setValue(track);
             progressDialog.dismiss();

@@ -86,10 +86,18 @@ public class TrackAdapter extends RecyclerView.Adapter{
 
             Map<String,Float> usersWhichHaveRated = track.getUsersWhichHaveRated();
             float rating = 0;
-            for (Map.Entry<String, Float> entry : usersWhichHaveRated.entrySet()) {
-                rating += entry.getValue();
+            int size = 1;
+            if(usersWhichHaveRated != null) {
+                for (Map.Entry<String, Float> entry : usersWhichHaveRated.entrySet()) {
+                    rating += entry.getValue();
+                }
+                size = usersWhichHaveRated.size();
             }
-            ((MyViewHolder) holder).mRate.setText("Avg rating: "+String.valueOf(rating / usersWhichHaveRated.size()));
+            else{
+                rating = 0;
+                size = 1;
+            }
+            ((MyViewHolder) holder).mRate.setText("Avg rating: "+String.valueOf(rating/size));
             ((MyViewHolder) holder).buttonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
