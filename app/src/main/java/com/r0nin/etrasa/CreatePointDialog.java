@@ -25,6 +25,7 @@ public class CreatePointDialog extends AppCompatDialogFragment {
     private CreatePointDialogListener createPointDialogListener;
     private EditText editTextPointName, editTextPointRadius, editTextDescription;
     private Button buttonSelectImageCreateWindowDialog, buttonSaveCreateWindowDialog;
+    private static int numberPoint = 1;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -36,10 +37,23 @@ public class CreatePointDialog extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String pointName = editTextPointName.getText().toString();
-                        int radius = Integer.parseInt(editTextPointRadius.getText().toString());
+                        int radius;
+                        String pointName;
+                        if(!editTextPointName.getText().toString().isEmpty() && !editTextPointRadius.getText().toString().isEmpty()) {
+                            pointName = editTextPointName.getText().toString();
+                            radius = Integer.parseInt(editTextPointRadius.getText().toString());
+                            createPointDialogListener.applyData(pointName,radius);
+                            numberPoint++;
+                        }
+                        else{
+                            pointName = "Point";
+                            radius = 100;
+                            createPointDialogListener.applyData(numberPoint+" "+pointName,radius);
+                            numberPoint++;
+                        }
 
-                        createPointDialogListener.applyData(pointName,radius);
+
+
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

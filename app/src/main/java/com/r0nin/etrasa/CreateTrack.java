@@ -73,7 +73,7 @@ public class CreateTrack extends AppCompatActivity {
         numerAL = i.getIntegerArrayListExtra("numerAL");
         latAL = i.getStringArrayListExtra("latAL");
         lngAL = i.getStringArrayListExtra("lngAL");
-
+        actual = 0;
         textViewPointName.setText(titlesAL.get(actual));
         if(i.hasExtra("trackDescription") && i.hasExtra("trackTitle") && i.hasExtra("keyTrack")){
             editTextDescriptionTrack.setText(i.getStringExtra("trackDescription"));

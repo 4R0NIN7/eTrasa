@@ -334,6 +334,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             markers.remove(marker);
             titlesAL.remove(index);
             radiusAL.remove(index);
+            description.remove(index);
             latAL.remove(index);
             lngAL.remove(index);
             mMap.clear();
