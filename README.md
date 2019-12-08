@@ -7,19 +7,19 @@
  Dodatkowo będzie można dzielić się tymi szlakami z innymi i komentować/oceniać dane szlaki.
  
 # Informacje
- - przynajmniej 3 activity (można fragmenty)
- - lokalna baza danych, SharedPreferences do przetrzymywania opcji aplikacji
- - wykorzystanie service min. 1
- - BroadcastReceiver do wyłapywania i reakcji na zdarzenia systemowe (przynajmniej 1)
- - przeniesienie backendu aplikacji (np: bazy danych) na chmurę. Wykorzystanie uwierzytelniania (logowanie itd.)
- - lokalizacja + geofenców (jak pojawi się w obrębie uczelni to otrzyma lokalne informacje + użytkownik ma mieć możliwość dodawania miejsc itd.)
- - utworzenie Widgetu ze skrótami do aplikacji 
- - wykorzystanie multimediów (np: robienie zdjęć, skanowanie qr, mediaplayer)
+ - przynajmniej 3 activity (można fragmenty) ✓
+ - lokalna baza danych, SharedPreferences do przetrzymywania opcji aplikacji ✓
+ - wykorzystanie service min. 1 ✓
+ - BroadcastReceiver do wyłapywania i reakcji na zdarzenia systemowe (przynajmniej 1) ✓
+ - przeniesienie backendu aplikacji (np: bazy danych) na chmurę. Wykorzystanie uwierzytelniania (logowanie itd.) ✓
+ - lokalizacja + geofenców (jak pojawi się w obrębie uczelni to otrzyma lokalne informacje + użytkownik ma mieć możliwość dodawania miejsc itd.) ✓
+ - utworzenie Widgetu ze skrótami do aplikacji ✓
+ - wykorzystanie multimediów (np: robienie zdjęć, skanowanie qr, mediaplayer) ✓
 
  opcjonalnie:
  - udostępnianie danych aplikacji przez ContentProvider
  - dodanie mapki z najbliższym miejsce z listy dostępnych lokalizacji
- - udostępnianie zdjęć/filmów + komentarze
+ - udostępnianie zdjęć/filmów + komentarze ✓
 
 # Przydatne linki
  - Firebase tutorial  https://www.androidhive.info/2016/06/android-getting-started-firebase-simple-login-registration-auth/
