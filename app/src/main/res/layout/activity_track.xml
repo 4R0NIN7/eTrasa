@@ -12,7 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".TrackActivity" />
+    <!--
+    <RelativeLayout
+        android:id="@+id/relLayoutInTrack"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="10dp"
+        android:background="@drawable/white_border">
 
+    <fragment android:id="@+id/autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        />
+
+    </RelativeLayout>
+    -->
     <ImageView
         android:id="@+id/endSettingTrack"
         android:layout_width="40dp"
