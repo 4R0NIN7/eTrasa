@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                         Track track = dataSnapshot1.getValue(Track.class);
-                        tracks.add(track);
+                        tracks.add(0,track);
                         keys.add(track.getKeyTrack());
                         //Toast.makeText(getApplicationContext(), "onDataChange", Toast.LENGTH_SHORT).show();
                         HashSet<Track> hashSet = new HashSet<Track>();
