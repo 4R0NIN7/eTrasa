@@ -41,6 +41,7 @@ public class Settings extends AppCompatActivity {
                 finish();
             }
         });
+
         boolean stateLogin = sharedpreferences.getBoolean(STATE_SWITCH_REMEMBER_LOGIN,false);
         switchRememberLogin.setChecked(stateLogin);
 

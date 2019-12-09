@@ -21,9 +21,9 @@
     <application
         android:allowBackup="true"
         android:configChanges="orientation"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_add_point"
         android:label="eTrasa"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_add_point"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

@@ -84,7 +84,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     protected Intent serviceIntent;
     private InformationDialog informationDialog;
     private SharedPreferences sharedpreferences;
-    private boolean debug_mode = false;
+    private boolean debug_mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +109,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         imageViewGoBack = findViewById(R.id.imageViewGoBack);
         sharedpreferences = getSharedPreferences(STORE_LOG,
                 Context.MODE_PRIVATE);
-        boolean debug_mode = sharedpreferences.getBoolean("debug_mode",false);
+
         imageViewGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -242,6 +242,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                     checkingInsideCircle(c,m);
                 else {
                     if(isLocationServiceRunning()) {
+                        debug_mode = sharedpreferences.getBoolean("debug_mode",false);
                         if(debug_mode) {
                             Toast.makeText(getApplicationContext(), getApplicationContext().getText(R.string.move_next), Toast.LENGTH_SHORT).show();
                         }
@@ -359,6 +360,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         Location.distanceBetween(currentLocation.getLatitude(), currentLocation.getLongitude(), circle.getCenter().latitude, circle.getCenter().longitude, distance);
         if(distance[0] > circle.getRadius()){
             if(isLocationServiceRunning()) {
+                debug_mode = sharedpreferences.getBoolean("debug_mode",false);
                 if(debug_mode)
                     Toast.makeText(this, this.getText(R.string.not_in_circle) + " " + marker.getTitle(), Toast.LENGTH_SHORT).show();
             }
