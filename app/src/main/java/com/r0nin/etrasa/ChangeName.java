@@ -53,7 +53,7 @@ public class ChangeName extends AppCompatActivity {
                 if(!editTextName.getText().toString().isEmpty())
                     save(editTextName.getText().toString());
                 else
-                    Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.new_name_empty), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -82,7 +82,6 @@ public class ChangeName extends AppCompatActivity {
         if (firebaseUser != null) {
             firebaseUser.updateProfile(profileUpdates);
             database.child("users").child(firebaseUser.getUid()).child("displayName").setValue(name);
-
             ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,8 +94,8 @@ public class ChangeName extends AppCompatActivity {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {}
             };
-
-            Toast.makeText(ChangeName.this, getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_SHORT).show();
+            usersRef.addValueEventListener(valueEventListener);
+            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_SHORT).show();
             mAuth.signOut();
             Intent i = new Intent(ChangeName.this,LoginActivity.class);
             progressDialog.dismiss();
