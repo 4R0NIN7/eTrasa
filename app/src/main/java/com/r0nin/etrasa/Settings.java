@@ -64,7 +64,7 @@ public class Settings extends AppCompatActivity {
         });
 
 
-        boolean stateNotifications = sharedpreferences.getBoolean(STATE_SWITCH_SHOW_NOTIFICATIONS,true);
+        boolean stateNotifications = sharedpreferences.getBoolean(STATE_SWITCH_SHOW_NOTIFICATIONS,false);
         switchShowNotiffications.setChecked(stateNotifications);
 
         switchShowNotiffications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
