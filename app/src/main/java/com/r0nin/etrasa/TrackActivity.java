@@ -1,10 +1,5 @@
 package com.r0nin.etrasa;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,18 +12,10 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -44,31 +31,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 public class TrackActivity extends FragmentActivity implements OnMapReadyCallback, CreatePointDialog.CreatePointDialogListener {
 
     protected GoogleMap mMap;
     protected Circle circle;
     protected Marker marker;
-
-
-
 
 
     private String TAG = "TrackActivity";
@@ -79,7 +56,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private static final int LOCATION_PERMISSIONS_REQUEST = 4321;
 
     private static final int INTERVAL = 120000;//for every 2 minutes
-    private static final int FASTEST_INTERVAL = 1000;  //for every 10 sec if it's sooner
+    private static final int FASTEST_INTERVAL = 10*1000;  //for every 10 sec if it's sooner
 
     private static final int SMALLEST_DISPLACEMENT = 100; //for every x meters the locationCallback will go
     private static final float DEFAULT_ZOOM = 15; //Default zoom for camera
@@ -115,7 +92,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private LocationRequest locationRequest;
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    protected ImageView settingsDataTrack, endSettingTrack;
+    protected ImageView settingsDataTrack, endSettingTrack, moveBack;
     protected boolean changeTrack = false;
 
 
@@ -161,6 +138,16 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                     finish();
                 }else
                     Toast.makeText(getApplicationContext(), getApplicationContext().getText(R.string.markers_empty), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        moveBack = findViewById(R.id.moveBack);
+        moveBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

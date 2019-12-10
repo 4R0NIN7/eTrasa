@@ -32,6 +32,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class LocationService extends Service {
 
+
+    /**
+     * The main entry point for interacting with the fused location provider.
+     */
     private FusedLocationProviderClient mFusedLocationClient;
     private final static long UPDATE_INTERVAL = 4000; //4 sec
     private final static long FASTEST_INTERVAL = 2000; //2 sec
@@ -75,7 +79,12 @@ public class LocationService extends Service {
         Log.d(TAG, "onStartCommand: called.");
         getLocation();
         return START_REDELIVER_INTENT;
+        /* START_REDELIVER_INTENT - If the system kills the service after onStartCommand() returns, recreate the service and call onStartCommand()
+        with the last intent that was delivered to the service. Any pending intents are delivered in turn.
+        This is suitable for services that are actively performing a job that should be immediately resumed,
+        such as downloading a file. */
     }
+
 
     private void getLocation() {
         // Create the location request to start receiving updates
@@ -107,7 +116,7 @@ public class LocationService extends Service {
                         }
                     }
                 },
-                Looper.myLooper()); // Looper = while
+                Looper.myLooper()); // Looper = while(true)
     }
 
     private void sendMessageToActivity(Location location) {

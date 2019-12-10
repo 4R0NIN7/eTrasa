@@ -78,7 +78,9 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     protected ArrayList<Double> radiusDouble = new ArrayList<>();
     protected ArrayList<Marker> markers = new ArrayList<>();
     protected ArrayList<Circle> circles = new ArrayList<>();
+
     protected String trackTitle, trackDescription, keyTrack;
+
     protected boolean playTrackReady = true;
     protected ImageView imageViewGoBack;
     protected Intent serviceIntent;
@@ -223,6 +225,9 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
+    /**
+     * BroadCastReceiver dla LocationService
+     */
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -233,7 +238,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
                 Log.d(TAG, "Location: " + lastKnownLocation.getLatitude() + " " + lastKnownLocation.getLongitude());
                 currentLocation = lastKnownLocation;
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                //moveCamera(latLng, DEFAULT_ZOOM, PlayTrack.this.getText(R.string.current_position).toString());
+                //moveCamera(latLng, DEFAULT_ZOOM);
                 //Toast.makeText(getApplicationContext(),""+latLng.latitude + " " + latLng.longitude,Toast.LENGTH_SHORT).show();
                 int closest = whichCircleIsClosest(circles);
                 Circle c = circles.get(closest);
@@ -319,7 +324,7 @@ public class PlayTrack extends FragmentActivity implements OnMapReadyCallback {
         alert.show();
     }
 
-    private void moveCamera(LatLng latLng, float zoom, String title){
+    private void moveCamera(LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }

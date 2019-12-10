@@ -53,4 +53,17 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_add_point" />
 
+    <ImageView
+        android:id="@+id/moveBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="@id/mapTrack"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="10dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_go_back" />
+
+
+
 </RelativeLayout>
