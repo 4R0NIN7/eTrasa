@@ -30,8 +30,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -136,9 +139,9 @@ public class ChangeUserImage extends AppCompatActivity {
         if(uri != null) {
             mStorageRef = FirebaseStorage.getInstance().getReference();
             StorageReference imagesRef = mStorageRef.child("userImages");
-            StorageReference userRef = imagesRef.child(firebaseUser.getUid());
+            final StorageReference userRef = imagesRef.child(firebaseUser.getUid());
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String filename = firebaseUser.getUid() + "_" + timeStamp;
+            final String filename = firebaseUser.getUid() + "_" + timeStamp;
             final StorageReference fileRef = userRef.child(filename);
             Log.i(TAG, "Ref created: onSuccess");
             progressDialog.show();
@@ -187,10 +190,10 @@ public class ChangeUserImage extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                        Uri downloadUri = task.getResult();
+                        final Uri downloadUri = task.getResult();
                         String key = database.child("userImages").push().getKey();
                         Image image = new Image(key, firebaseUser.getUid(), downloadUri.toString());
-                        database.child("userImages").setValue(image);
+                        database.child("userImages").child(firebaseUser.getUid()).setValue(image);
                         Log.i(TAG, "saveToDB onSuccess");
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(downloadUri).build();
                         firebaseUser.updateProfile(profileUpdates);

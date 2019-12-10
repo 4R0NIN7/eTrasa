@@ -9,7 +9,7 @@ public class User {
     public String displayName;
     public String token;
     public String email;
-    public String imageDownloadUri;
+    //public String imageDownloadUri;
 
     public User(){}
 
@@ -18,7 +18,6 @@ public class User {
         this.uid = uid;
         this.displayName = displayName;
         this.token = token;
-        this.imageDownloadUri = "";
     }
 
     public String getUid() {
@@ -27,9 +26,5 @@ public class User {
 
     public String getDisplayName() {
         return displayName;
-    }
-
-    public String getImageDownloadUri() {
-        return imageDownloadUri;
     }
 }

@@ -34,7 +34,7 @@ public class ChangeName extends AppCompatActivity {
     protected DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     protected final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected FirebaseDatabase db = FirebaseDatabase.getInstance();
-    protected DatabaseReference usersRef = db.getReference("tracks");
+    protected DatabaseReference tracksRef = db.getReference("tracks");
     private ProgressDialog progressDialog;
 
     @Override
@@ -88,13 +88,13 @@ public class ChangeName extends AppCompatActivity {
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
                         Track track = ds.getValue(Track.class);
                         if(track.getUserId().equals(firebaseUser.getUid()))
-                            usersRef.child(track.getKeyTrack()).child("displayName").setValue(name);
+                            tracksRef.child(track.getKeyTrack()).child("displayName").setValue(name);
                     }
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {}
             };
-            usersRef.addValueEventListener(valueEventListener);
+            tracksRef.addValueEventListener(valueEventListener);
             Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.new_name_success), Toast.LENGTH_SHORT).show();
             mAuth.signOut();
             Intent i = new Intent(ChangeName.this,LoginActivity.class);
